@@ -1,0 +1,46 @@
+1. Skapa Githubkonto
+2. Sätt upp RStudio-synk med Github
+3. Läs in exempeldata
+4. Börja visualisera data i ggplot2
+
+
+
+
+
+
+
+
+
+
+###### Releaseplan #######
+
+Iteration 1
+===========
+Release: november
+Data: Statisk (hemladdad)
+Visualisering: Statisk (ggplot2)
+Spridning: De närmast sörjande
+
+
+Iteration 2
+===========
+Release: december
+Data: Statisk (hemladdad)
+Visualisering: Rörlig (Shiny/d3)
+Spridning: Blogg + Facebook
+
+
+Iteration 3
+===========
+Release: januari
+Data: Dynamisk/statisk (databas med hemladdad CSV-data)
+Visualisering: Rörlig/interaktiv (Shiny/d3)
+Spridning: Sthlm useR group, andra webbforum, hela mitt nätverk
+
+
+Iteration 4
+===========
+Release: mars?
+Data: Dynamisk (databas + scraper)
+Visualisering: Interaktiv (Shiny/d3)
+Spridning: Hela mitt nätverk + Kolada
