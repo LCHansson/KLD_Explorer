@@ -22,11 +22,12 @@ aldre.long <- aldre.long[order(aldre.long$Kommun.Landsting),]
 ## Lös det tillfälligt genom att ta bort alla rader utan nyckeltal (==0).
 aldre.long <- aldre.long[aldre.long$Kod != 0,]
 
-#aldre.wide <- dcast(data=aldre.long, formula=... ~ Kod , value.var="Visat.Värde")
-
 # Sortera och putsa aldre.nt
-colnames(aldre.long) <- c("nyckel", "Kommun", "year", "value", "code")
+colnames(aldre.long) <- c("nyckel", "kommun", "year", "value", "code")
 
+#aldre.wide <- cast(aldre.long, N23890 ~ code)
+#aldre.wide <- dcast(data=aldre.long, formula=... ~ Kod , value.var="Visat.Värde")
+aldre.wide <- reshape(aldre.long, direction="wide", timevar="code", idvar=c("year", "kommun"))
 
 
 # Hämta ut data för ett visst år och en viss variabel
