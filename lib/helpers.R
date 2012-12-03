@@ -3,7 +3,7 @@ helper.function <- function()
   return(1)
 }
 
-loadcleandata <- function(title)
+loadKLData <- function(title)
 {
   typeof(title)
   path <- paste("./data/", title, ".csv", sep="")
