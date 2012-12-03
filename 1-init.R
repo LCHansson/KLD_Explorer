@@ -1,5 +1,5 @@
 library(ProjectTemplate)
-setwd("~/R/KLD_Explore")
+setwd("~/R/KLD_Explorer")
 load.project()
 
 
@@ -16,6 +16,6 @@ Metadata.corr <- Metadata.corr[!duplicated(Metadata.corr$Kortnamn),]
 ##### LÄS IN KOLADA-DATA #####
 
 ## NEDLADDAD DATA (format: long)
-bakgr <- loadcleandata("kld_bakgr")
-miscdata <- loadcleandata("kld_randomdata")
+bakgr <- loadKLData("kld_bakgr")
+miscdata <- loadKLData("kld_randomdata")
 
