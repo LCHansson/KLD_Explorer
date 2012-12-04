@@ -13,9 +13,10 @@ Metadata.Kolada <- read.csv("./data/Metadata_Kolada.csv", stringsAsFactors = FAL
 Metadata.corr <- Metadata.Kolada[!duplicated(Metadata.Kolada$Kod),]
 Metadata.corr <- Metadata.corr[!duplicated(Metadata.corr$Kortnamn),]
 
-##### LÄS IN KOLADA-DATA #####
+##### LÄS IN KOLADA-DATA ##### 
 
 ## NEDLADDAD DATA (format: long)
 bakgr <- loadKLData("kld_bakgr")
 miscdata <- loadKLData("kld_randomdata")
 
+bakgr <- loadKLData("kld_randomdata")

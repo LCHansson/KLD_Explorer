@@ -16,14 +16,14 @@ loadKLData <- function(title)
   x <- merge(x, Metadata.corr[c("Kortnamn", "Kod")], by.x="Nyckeltal", by.y="Kortnamn")
 
   # Drop "Nyckeltal" column
-  x <- x[,!colnames(x) %in% "Nyckeltal"]
+  #x <- x[,!colnames(x) %in% "Nyckeltal"]
   
   # Clean NAs and order data for browsability
   x[is.na(x)] <- 0
   x <- x[order(x$Kommun),]
   
   # Rename columns
-  colnames(x) <- c("Kommun", "År", "value", "Kod")
+  colnames(x) <- c("Beskrivning", "Kommun", "År", "value", "Kod")
   
   return(x)
 }

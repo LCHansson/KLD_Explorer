@@ -1,19 +1,30 @@
 shinyUI(bootstrapPage(
   
-  selectInput(inputId = "n_breaks",
-              label = "Number of bins in histogram (approximate):",
-              choices = c(10, 20, 35, 50),
-              selected = 20),
+  selectInput(inputId = "category",
+              label = "Välj variabel",
+              choices = keys,
+              selected = ""),
+
+#   selectInput(inputId = "kommun",
+#               label = "Välj kommun",
+#               choices = unique(bakgr$Kommun),
+#               selected = ""),
   
-  checkboxInput(inputId = "individual_obs",
-                label = strong("Show individual observations"),
-                value = FALSE),
+  selectInput(inputId = "graftyp",
+              label = "Välj graf",
+              choices = c("point",
+                          "line",
+                          "boxplot")),
   
-  checkboxInput(inputId = "density",
-                label = strong("Show density estimate"),
-                value = FALSE),
+   checkboxInput(inputId = "smooth",
+                 label = strong("Visa regressionslinje"),
+                 value = FALSE),
+#   
+#   checkboxInput(inputId = "density",
+#                 label = strong("Show density estimate"),
+#                 value = FALSE),
   
-  plotOutput(outputId = "main_plot", height = "300px"),
+   plotOutput(outputId = "main_plot", height = "300px"),
   
   # Display this only if the density is shown
   conditionalPanel(condition = "input.density == true",

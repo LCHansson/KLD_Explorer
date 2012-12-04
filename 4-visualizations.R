@@ -9,6 +9,7 @@ p <- ggplot(data=bakgr[bakgr$År == 2010,], aes(x=Kod, y=value))
 p + geom_point()
 
 
+
 ##### EXPERIMENTELL KOD #####
 # Detta avsnitt är inte avsett för produktion utan för experiment.
 # Produktionskod återfinns nedan.

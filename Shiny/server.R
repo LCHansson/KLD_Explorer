@@ -2,21 +2,31 @@ shinyServer(function(input, output) {
   
   output$main_plot <- reactivePlot(function() {
     
-    hist(faithful$eruptions,
-         probability = TRUE,
-         breaks = as.numeric(input$n_breaks),
-         xlab = "Duration (minutes)",
-         main = "Geyser eruption duration")
+#    p <- ggplot(data=bakgr[bakgr$Kod == input$category & bakgr$Kommun == input$kommun,], aes(x=År, y=value))
+    p <- ggplot(data=bakgr[bakgr$Kod == input$category,], aes(x=År, y=value, group=År))
+    p <- p + layer(geom=input$graftyp)
     
-    if (input$individual_obs) {
-      rug(faithful$eruptions)
+    if (input$smooth) {
+      p <- p + geom_smooth(method="lm")
     }
+
+    print(p)
     
-    if (input$density) {
-      dens <- density(faithful$eruptions,
-                      adjust = input$bw_adjust)
-      lines(dens, col = "blue")
-    }
+#     hist(faithful$eruptions,
+#          probability = TRUE,
+#          breaks = as.numeric(input$n_breaks),
+#          xlab = "Duration (minutes)",
+#          main = "Geyser eruption duration")
+#     
+#     if (input$individual_obs) {
+#       rug(faithful$eruptions)
+#     }
+#     
+#     if (input$density) {
+#       dens <- density(faithful$eruptions,
+#                       adjust = input$bw_adjust)
+#       lines(dens, col = "blue")
+#     }
     
   })
 })
