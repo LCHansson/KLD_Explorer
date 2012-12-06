@@ -1,15 +1,14 @@
-helper.function <- function()
-{
-  return(1)
-}
-
 loadKLData <- function(title)
 {
   typeof(title)
   path <- paste("./data/", title, ".csv", sep="")
   sprintf(path)
+  
   # Loads and cleans data from the ./data folder.
-  # Data must be in csv (sep=";") format and encoded in ISO8859-1.
+  # Data must be in the following format:
+  # - csv (sep=";")
+  # - encoded in ISO8859-1
+  # - Four columns: "Kommun", "Nyckeltal", "År", "Visat_Värde"
   x <- read.csv(path, sep=";", stringsAsFactors = FALSE, fileEncoding="ISO8859-1")
   
   # Add metadata

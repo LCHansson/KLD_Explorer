@@ -20,3 +20,10 @@ bakgr <- loadKLData("kld_bakgr")
 miscdata <- loadKLData("kld_randomdata")
 
 bakgr <- loadKLData("kld_randomdata")
+
+
+## SKAPA ETIKETTVARIABEL FÖR DROP DOWN-MENYER
+u <- unstack(unique(bakgr[,c("Kod", "Beskrivning")]))
+keys <- c(u[,1])
+names(keys) <- rownames(u)
+

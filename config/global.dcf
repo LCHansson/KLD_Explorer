@@ -3,6 +3,6 @@ cache_loading: on
 munging: on
 logging: off
 load_libraries: on
-libraries: reshape, plyr, ggplot2, stringr, lubridate, sp, RColorBrewer
+libraries: reshape, plyr, ggplot2, stringr, lubridate, sp, RColorBrewer, shiny
 as_factors: on
 data_tables: off
