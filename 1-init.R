@@ -25,3 +25,10 @@ u <- unstack(unique(bakgr[,c("Kod", "Beskrivning")]))
 keys <- c(u[,1])
 names(keys) <- rownames(u)
 
+# Skapa wide-dataset och ta bort beskrivningsvariabeln
+wide_time <- dcast(bakgr, Kommun + Beskrivning + Kod ~ År, value.var = "value")
+
+bakgr <- bakgr[,2:5]
+
+wide_var <- dcast(bakgr, Kommun + År ~ Kod, value.var="value")
+#wide <- reshape(bakgr, varying=c("Kod", "Beskrivning", "value"), v.names="test", timevar="År", idvar="Kommun", direction="wide")

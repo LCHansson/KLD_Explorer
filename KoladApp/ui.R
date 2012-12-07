@@ -7,11 +7,11 @@ shinyUI(pageWithSidebar(
                 label = "Välj variabel",
                 choices = keys,
                 selected = "Nettokostnad äldreomsorg, kr/inv"),
-         
-        selectInput(inputId = "kommun",
-                    label = "Välj kommun",
-                    choices = unique(bakgr$Kommun),
-                    selected = "Ale"),
+    
+    selectInput(inputId = "kommun",
+                label = "Välj kommun",
+                choices = unique(bakgr$Kommun),
+                selected = "Ale"),
     
     selectInput(inputId = "graftyp",
                 label = "Välj graf",
@@ -31,6 +31,18 @@ shinyUI(pageWithSidebar(
                                    value = FALSE)
     ),
     
+    checkboxInput(inputId = "tvavar",
+                  label = strong("Lägg till andra variabel"),
+                  value = FALSE),
+    
+    # Display this only if tvavar is active
+    conditionalPanel(condition = "input.tvavar == true",
+                     selectInput(inputId = "categ2",
+                                 label = "Välj variabel",
+                                 choices = keys,
+                                 selected = "Kostnad individ- och familjeomsorg, kr/inv")
+    ),
+    
     # This is unused, invisible slider is necessary because of a bug
     conditionalPanel(
       condition = "false",
@@ -40,8 +52,10 @@ shinyUI(pageWithSidebar(
   ),
   
   mainPanel(
-    plotOutput(outputId = "main_plot", height = "300px"),
-    textOutput("sessioninfo")
-  )  
-  
+    tabsetPanel(
+      tabPanel("Plot", plotOutput("main_plot", height="400px")),
+      tabPanel("Twoway", plotOutput("twoway_plot", height="400px")),
+      tabPanel("Session info", textOutput("sessioninfo"))
+    )
+  )
 ))
