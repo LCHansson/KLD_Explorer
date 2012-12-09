@@ -13,6 +13,11 @@ shinyUI(pageWithSidebar(
                 choices = unique(bakgr$Kommun),
                 selected = "Ale"),
     
+    selectInput(inputId = "year",
+                label="Välj år",
+                choices = allyears,
+                selected = "2010"),
+    
     selectInput(inputId = "graftyp",
                 label = "Välj graf",
                 choices = c("point",
@@ -30,7 +35,7 @@ shinyUI(pageWithSidebar(
                                    label = "Loess",
                                    value = FALSE)
     ),
-    
+
     checkboxInput(inputId = "tvavar",
                   label = strong("Lägg till andra variabel"),
                   value = FALSE),
@@ -54,7 +59,7 @@ shinyUI(pageWithSidebar(
   mainPanel(
     tabsetPanel(
       tabPanel("Plot", plotOutput("main_plot", height="400px")),
-      tabPanel("Twoway", plotOutput("twoway_plot", height="400px")),
+      tabPanel("Twoway", plotOutput("twoway_plot", height="500px")),
       tabPanel("Session info", textOutput("sessioninfo"))
     )
   )

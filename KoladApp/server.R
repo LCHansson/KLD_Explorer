@@ -1,3 +1,6 @@
+allyears <- unique(bakgr$År)
+allyears <- allyears[sort.list(allyears)]
+
 shinyServer(function(input, output) {
   
   output$main_plot <- reactivePlot(function() {
@@ -23,13 +26,13 @@ shinyServer(function(input, output) {
     print(p)
   })
   
-  output$twoway_plot <- reactivePlot(function() {
-    xvar <- as.double(wide_var[,input$category])
-    yvar <- as.double(wide_var[,input$categ2])
-    # browser()
-    p <- ggplot(data=wide_var)
-    p <- p + layer(geom=input$graftyp, aes(x=xvar, y=yvar)) + xlim(0,100) + ylim(0,100)
-    print(p)
+  output$twoway_plot <- reactivePlot(function() {  
+    
+    q <- ggplot(data=wide_var, aes(x=N15400, y=N15402, color=Kommun))
+    q <- q + layer(geom="point", subset=.(År == input$year))
+    q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
+    q <- q + xlim(0,100) + ylim(0,100) + theme(legend.position = "right")
+    print(q)
   })
   
   output$sessioninfo <- reactiveText(function() {
