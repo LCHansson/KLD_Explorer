@@ -1,1 +1,1 @@
-runApp("Shiny")
+runApp("KoladApp")

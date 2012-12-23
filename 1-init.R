@@ -16,8 +16,8 @@ Metadata.corr <- Metadata.corr[!duplicated(Metadata.corr$Kortnamn),]
 ##### LÄS IN KOLADA-DATA ##### 
 
 ## NEDLADDAD DATA (format: long)
-bakgr <- loadKLData("kld_randomdata")
-bakgr <- loadKLData("kld_bakgr")
+#bakgr <- loadKLData("kld_randomdata")
+#bakgr <- loadKLData("kld_bakgr")
 bakgr <- loadKLData("kld_sthlm2")
 
 ## SKAPA ETIKETTVARIABEL FÖR DROP DOWN-MENYER
@@ -32,3 +32,6 @@ bakgr <- bakgr[,2:5]
 
 wide_var <- dcast(bakgr, Kommun + År ~ Kod, value.var="value")
 #wide <- reshape(bakgr, varying=c("Kod", "Beskrivning", "value"), v.names="test", timevar="År", idvar="Kommun", direction="wide")
+
+allyears <- unique(bakgr$År)
+allyears <- allyears[sort.list(allyears)]

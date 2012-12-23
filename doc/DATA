@@ -1,0 +1,29 @@
+Beskrivning av data
+===================
+
+Antal kolumner
+--------------
+
+Kommun + År + Nyckeltalsnamn + värde = 4 kolumner
+
+
+Förväntad storlek, totaldata:
+-----------------------------
+
+289 kommuner *
+40 år *
+n nyckeltal (tentativ uppskattning: n≈1000)
+
+≈ 11560000 rader
+≈ 46240000 celler
+
+
+Förväntad storlek, testdata:
+----------------------------
+
+30 kommuner *
+15 år*
+20 nyckeltal
+
+9000 rader
+≈ 36000 celler
