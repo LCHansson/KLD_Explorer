@@ -19,6 +19,7 @@ Metadata.corr <- Metadata.corr[!duplicated(Metadata.corr$Kortnamn),]
 #bakgr <- loadKLData("kld_randomdata")
 #bakgr <- loadKLData("kld_bakgr")
 bakgr <- loadKLData("kld_sthlm2")
+bakgr <- loadKLData("kld_aldre1")
 
 ## SKAPA ETIKETTVARIABEL FÖR DROP DOWN-MENYER
 u <- unstack(unique(bakgr[,c("Kod", "Beskrivning")]))
