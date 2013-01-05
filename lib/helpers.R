@@ -1,7 +1,7 @@
 loadKLData <- function(title)
 {
   typeof(title)
-  path <- paste("./data/", title, ".csv", sep="")
+  path <- paste("./indata/", title, ".csv", sep="")
   sprintf(path)
   
   # Loads and cleans data from the ./data folder.
@@ -13,7 +13,7 @@ loadKLData <- function(title)
   
   # Add metadata
   x <- merge(x, Metadata.corr[c("Kortnamn", "Kod")], by.x="Nyckeltal", by.y="Kortnamn")
-
+  
   # Drop "Nyckeltal" column
   #x <- x[,!colnames(x) %in% "Nyckeltal"]
   
@@ -28,8 +28,22 @@ loadKLData <- function(title)
 }
 
 
-loadKLxls <- function(path) {
-  excelfiles <- list.files(path, "*.xls?")
+
+
+listKLIndata <- function(path = paste(getwd(), "/indata/", sep="")) {
+  datafiles <- list.files(path=path, pattern="*.xls")
+  
+  return(datafiles)
+}
+
+
+listKLDBcols <- function() {
+  collist <- getlistofKLDBcols()
+  
+  return(collist)
+}
+
+addtoKLDB <- function(varlist="") {
   
   
 }
