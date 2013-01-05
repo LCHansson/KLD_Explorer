@@ -26,3 +26,10 @@ loadKLData <- function(title)
   
   return(x)
 }
+
+
+loadKLxls <- function(path) {
+  excelfiles <- list.files(path, "*.xls?")
+  
+  
+}
