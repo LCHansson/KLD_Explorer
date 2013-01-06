@@ -1,7 +1,8 @@
 ##### INIT #####
+source("./lib/helpers.R")
+checkPackageDeps()
 library(ProjectTemplate)
 load.project()
-checkPackageDeps()
 # setwd("~/R/KLD_Explorer")
 
 
