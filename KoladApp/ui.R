@@ -10,7 +10,7 @@ shinyUI(pageWithSidebar(
     
 #     selectInput(inputId = "kommun",
 #                 label = "Välj kommun",
-#                 choices = unique(bakgr$Kommun),
+#                 choices = unique(KLData$Kommun),
 #                 selected = "Ale"),
     
 	sliderInput(inputId="year",
@@ -24,7 +24,7 @@ shinyUI(pageWithSidebar(
     sliderInput(inputId="kommunNr",
     			label="KommunNr",
     			min=1,
-    			max=length(unique(bakgr$Kommun)),
+    			max=length(unique(KLData$Kommun)),
     			value=1,
     			step=1,
     			animate=T),

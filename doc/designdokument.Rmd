@@ -25,7 +25,6 @@ Utöver själva appen ingår utvecklingen av verktyg (skript) för att läsa in 
 	-- Slicing
 - Trädanalys av vissa variabler
 	-- Geografisk och bakgrundsdata
-	-- 
 - Numerisk analys av variabler (standardiserade statistiska mått)
 - Stories för ett visst år eller en viss kommun
 - Plottning på karta av en eller flera variabler (både Sverige- och regionkartor)

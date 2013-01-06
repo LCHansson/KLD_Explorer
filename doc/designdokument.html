@@ -57,7 +57,7 @@ pre code {
    display: block; padding: 0.5em;
 }
 
-code.r {
+code.r, code.cpp {
    background-color: #F8F8F8;
 }
 
@@ -148,6 +148,37 @@ hr {
 <p>KoladApp ska vara ett verktyg för visuell och numerisk analys av data ur Kolada.</p>
 
 <p>(I en framtida version är även annan kommunuppdelad data en tänkbar kandidat för inkludering i appen, men inför v1.0 ligger fokus enbart på Kolada-data.)</p>
+
+<h2>Funktionalitet</h2>
+
+<p>Appen ska bestå av ett simplistiskt interface som möjliggör en begränsad uppsättning av analyser av data. Datat ska bestå av en så stor del av Kolada-data som möjligt. I en första testversion ingår en delmängd av datat med ett mindre antal variabler, årtal och kommuner.</p>
+
+<p>Utöver själva appen ingår utvecklingen av verktyg (skript) för att läsa in exporterad Kolada-data, samla denna i en databas/fil (coldbir?) och läsa ur denna. Uppläsning av data sker helst on-the-fly.</p>
+
+<p><strong>Förslag på funktioner</strong></p>
+
+<ul>
+<li>Tidsserieplot av en eller flera variabler för en eller flera kommuner
+&ndash; Slicing
+&ndash; Animation</li>
+<li>Jämförelse av två olika variabler över tid och/eller kommun
+&ndash; Slicing
+&ndash; Animationer</li>
+<li>Integration av klusteranalys/faktoranalys för data mellan kommuner givet en tidpunkt/tidsperiod
+&ndash; Slicing</li>
+<li>Trädanalys av vissa variabler
+&ndash; Geografisk och bakgrundsdata
+&ndash; </li>
+<li>Numerisk analys av variabler (standardiserade statistiska mått)</li>
+<li>Stories för ett visst år eller en viss kommun</li>
+<li>Plottning på karta av en eller flera variabler (både Sverige- och regionkartor)</li>
+<li>Top-vs-bottom-jämförelser</li>
+<li>Tips om intressanta variabler att jämföra, gärna automatiserat</li>
+<li>Dokumentation av variablerna</li>
+<li>Länkar till blogg, vägledningar etc. samt Kolada självt</li>
+</ul>
+
+<h2>Interface</h2>
 
 <h2>Releaser</h2>
 
