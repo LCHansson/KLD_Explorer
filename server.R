@@ -1,3 +1,4 @@
+source("./1-init.R")
 
 shinyServer(function(input, output) {
   
@@ -54,5 +55,6 @@ shinyServer(function(input, output) {
     print(input$smooth)
     print(paste("Var1: ",input$category, ", var2: ", input$categ2))
     print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
+    print(paste("Working directory:", getwd()))
   })
 })
