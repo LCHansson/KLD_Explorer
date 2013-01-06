@@ -1,38 +1,39 @@
+##### INIT #####
 library(ProjectTemplate)
-setwd("~/R/KLD_Explorer")
 load.project()
+checkPackageDeps()
+# setwd("~/R/KLD_Explorer")
 
-
-##### METADATA #####
-# Läs in nyckeltals-metadata
-Metadata.Kolada <- read.csv("./data/Metadata_Kolada.csv", stringsAsFactors = FALSE)
-
-# Ta bort dubletter från Metadata.Kolada
-# Av någon anledning är vissa nyckeltal duplicerade i filen, men det finns även
-# nyckeltal med olika kod men identiskt innehåll. Ta bort alla sådana dubletter.
-Metadata.corr <- Metadata.Kolada[!duplicated(Metadata.Kolada$Kod),]
-Metadata.corr <- Metadata.corr[!duplicated(Metadata.corr$Kortnamn),]
 
 ##### LÄS IN KOLADA-DATA ##### 
+Metadata <- loadKLMetadata()
 
 ## NEDLADDAD DATA (format: long)
-#bakgr <- loadKLData("kld_randomdata")
-#bakgr <- loadKLData("kld_bakgr")
-bakgr <- loadKLData("kld_sthlm2")
-bakgr <- loadKLData("kld_aldre1")
+KLData <- loadKLData()
+
+## LÄS PÅ METADATA PÅ KLData
+KLData <- appendMetadata(KLData, Metadata)
+
 
 ## SKAPA ETIKETTVARIABEL FÖR DROP DOWN-MENYER
-u <- unstack(unique(bakgr[,c("Kod", "Beskrivning")]))
+u <- unstack(unique(KLData[,c("Variabelkod", "Kortnamn")]))
 keys <- c(u[,1])
 names(keys) <- rownames(u)
 
+allyears <- unique(KLData$År)
+
+
+
+
+
+
+
 # Skapa wide-dataset och ta bort beskrivningsvariabeln
-wide_time <- dcast(bakgr, Kommun + Beskrivning + Kod ~ År, value.var = "value")
+# wide_time <- dcast(KLData, Kommun + Beskrivning + Variabelkod ~ År, value.var = "Värde")
+# KLData <- bakgr[,2:5]
 
-bakgr <- bakgr[,2:5]
-
-wide_var <- dcast(bakgr, Kommun + År ~ Kod, value.var="value")
+wide_var <- dcast(KLData, Kommun + År ~ Variabelkod, value.var="Värde")
 #wide <- reshape(bakgr, varying=c("Kod", "Beskrivning", "value"), v.names="test", timevar="År", idvar="Kommun", direction="wide")
 
-allyears <- unique(bakgr$År)
+allyears <- unique(KLData$År)
 allyears <- allyears[sort.list(allyears)]

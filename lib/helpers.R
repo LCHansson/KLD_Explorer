@@ -1,31 +1,42 @@
-loadKLData <- function(title)
-{
-  typeof(title)
-  path <- paste("./indata/", title, ".csv", sep="")
-  sprintf(path)
+
+##### INIT #####
+checkPackageDeps <- function() {
+  requiredPackages <- c("ggplot2", "sp", "lubridate", "coldbir", "devtools", "ProjectTemplate", "reshape2", "XLConnect")
   
-  # Loads and cleans data from the ./data folder.
-  # Data must be in the following format:
-  # - csv (sep=";")
-  # - encoded in ISO8859-1
-  # - Four columns: "Kommun", "Nyckeltal", "År", "Visat_Värde"
-  x <- read.csv(path, sep=";", stringsAsFactors = FALSE, fileEncoding="ISO8859-1")
+  for(package in requiredPackages) {
+    if (!package %in% installed.packages()) {
+      install.packages(package) # TODO: Implementera install_github om install.packages ger ett error
+    } 
+  }
+}
+
+
+##### DB FUNCTIONS #####
+loadKLMetadata <- function(){
+  ##### METADATA #####
+  # Läs in nyckeltals-metadata
+  Metadata.Kolada <- read.csv("./indata/metadata/Metadata_Kolada.csv", stringsAsFactors = FALSE)[,2:4] # Remove strange "X" column
   
-  # Add metadata
-  x <- merge(x, Metadata.corr[c("Kortnamn", "Kod")], by.x="Nyckeltal", by.y="Kortnamn")
-  
-  # Drop "Nyckeltal" column
-  #x <- x[,!colnames(x) %in% "Nyckeltal"]
-  
-  # Clean NAs and order data for browsability
-  x[is.na(x)] <- 0
-  x <- x[order(x$Kommun),]
-  
-  # Rename columns
-  colnames(x) <- c("Beskrivning", "Kommun", "År", "value", "Kod")
+  # Ta bort dubletter från Metadata.Kolada
+  # Av någon anledning är vissa nyckeltal duplicerade i filen, men det finns även
+  # nyckeltal med olika kod men identiskt innehåll. Ta bort alla dubletter av Kod
+  Metadata.corr <- Metadata.Kolada[!duplicated(Metadata.Kolada$Kod),]
+  return(Metadata.corr)
+}
+
+
+loadKLData <- function(){
+  x <- read.csv("db/nyckeltal.csv", sep=",", stringsAsFactors = FALSE, fileEncoding="UTF-8")
   
   return(x)
 }
+
+appendMetadata <- function(indata, metadata, byname="Variabelkod", metaname="Kod"){
+  KLData <- merge(indata, metadata,by.x=byname, by.y=metaname, all.x=T, all.y=F)
+}
+
+
+
 
 
 
@@ -43,7 +54,7 @@ listKLDBcols <- function() {
   return(collist)
 }
 
-addtoKLDB <- function(varlist="") {
-  
-  
+addtoKLDB <- function(path=paste(getwd(),"/indata/", sep=""), varlist="") {
+  for(varname in varlist)
+    loadKLData() 
 }
