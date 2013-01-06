@@ -2,7 +2,7 @@ source("./1-init.R")
 
 shinyServer(function(input, output) {
   
-  output$main_plot <- reactivePlot(function() {
+  output$main_plot <- reactivePlot(function() {    
     p <- ggplot(data=KLData, aes(x=År, y=Värde, group=1, xmin=min(allyears), xmax=max(allyears)))
     #   p <- p + layer(geom=input$graftyp, subset = .(Variabelkod == input$category & Kommun == input$kommun))
     p <- p + layer(
@@ -36,11 +36,18 @@ shinyServer(function(input, output) {
   
   
   output$twoway_plot <- reactivePlot(function() {  
-    xvar <- input$category
-    yvar <- input$categ2
-    print(c(xvar, yvar))
+    commune <- cdb$get_v("Kommun")
+    year <- cdb$get_v("År")
+    xvar <- cdb$get_v(input$category)
+    yvar <- cdb$get_v(input$categ2)
     
-    q <- ggplot(data=wide_var, aes_string(x=xvar, y=yvar, color="Kommun"))
+    xname <- input$category
+    yname <- input$categ2
+    
+    df <- data.frame(commune, year, xvar, yvar)
+    names(df) <- c("Kommun", "År", xname, yname)
+
+    q <- ggplot(data=df, aes_string(x=xname, y=yname, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
     q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
     q <- q + xlim(0,100) + ylim(0,100) + theme(legend.position = "right")

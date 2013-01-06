@@ -1,7 +1,7 @@
 
 ##### INIT #####
 checkPackageDeps <- function() {
-  requiredPackages <- c("ggplot2", "sp", "lubridate", "devtools", "ProjectTemplate", "reshape2")
+  requiredPackages <- c("ggplot2", "sp", "lubridate", "devtools", "ProjectTemplate", "reshape2", "coldbir")
   
   for(package in requiredPackages) {
     if (!package %in% installed.packages()) {

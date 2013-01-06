@@ -32,9 +32,11 @@ allyears <- unique(KLData$År)
 # Skapa wide-dataset och ta bort beskrivningsvariabeln
 # wide_time <- dcast(KLData, Kommun + Beskrivning + Variabelkod ~ År, value.var = "Värde")
 # KLData <- bakgr[,2:5]
+cdb <- coldbir:::db$new('./db/cdb')
 
-wide_var <- dcast(KLData, Kommun + År ~ Variabelkod, value.var="Värde")
-#wide <- reshape(bakgr, varying=c("Kod", "Beskrivning", "value"), v.names="test", timevar="År", idvar="Kommun", direction="wide")
+
+# wide_var <- dcast(KLData, Kommun + År ~ Variabelkod, value.var="Värde")
+# wide <- reshape(bakgr, varying=c("Kod", "Beskrivning", "value"), v.names="test", timevar="År", idvar="Kommun", direction="wide")
 
 allyears <- unique(KLData$År)
 allyears <- allyears[sort.list(allyears)]
