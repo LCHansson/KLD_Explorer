@@ -14,8 +14,8 @@ Förväntad storlek, totaldata:
 40 år *
 n nyckeltal (tentativ uppskattning: n≈1000)
 
-≈ 11560000 rader
-≈ 46240000 celler
+<= 11560000 rader
+<= 46240000 celler
 
 
 Förväntad storlek, testdata:

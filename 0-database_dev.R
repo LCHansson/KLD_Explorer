@@ -1,13 +1,20 @@
-library(coldbir)
-
-datafiles <- listKLData()
-
-addToKlDB(datafiles)
-
-
+##### CREATE DB FROM KOLADA INDATA #####
+system("python import_xls.py")
 
 
 ##### DEV SPACE #####
+datafiles <- listKLIndata()
+
+addToKlDB(datafiles)
+
+a <- loadKLData(title="N00800.xls")
+
+
+filename <- paste(getwd(),"/scraper/out,", sep="")
+
+wb <- loadWorkbook(filename)
+df <- readWorksheet(filename)
+
 
 mdcdb <- put_db(df=Metadata.corr,path="./db/",lookup=T)
 

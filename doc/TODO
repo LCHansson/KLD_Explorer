@@ -1,0 +1,47 @@
+ATT GÖRA
+- Lägg upp appen på Shiny-server-betan
+- Skapa väljare för vilket dataset som ska läsas in
+- Lagra befintlig Kolada-data i coldbir-formatet
+- Skapa skript för inläsning och lagring av ny data
+- UI-design
+- Funktionalitetsdesign
+- Lägg upp projekt-wiki på Github med färgkodad funktionalitets-TODO
+
+###### Releaseplan #######
+
+Iteration 1
+===========
+Release: november
+Data: Statisk (hemladdad)
+Visualisering: Statisk (ggplot2)
+Spridning: De närmast sörjande
+
+
+Iteration 2
+===========
+Release: december
+Data: Statisk (hemladdad)
+Visualisering: Rörlig (Shiny/d3)
+Spridning: Blogg + Facebook
+
+
+Iteration 3
+===========
+Release: januari
+Data: Dynamisk/statisk (databas med hemladdad CSV-data)
+Visualisering: Rörlig/interaktiv (Shiny/d3)
+Spridning: Sthlm useR group, andra webbforum, hela mitt nätverk
+
+
+Iteration 4
+===========
+Release: mars?
+Data: Dynamisk (databas + scraper)
+Visualisering: Interaktiv (Shiny/d3)
+Spridning: Hela mitt nätverk + Kolada
+
+
+
+
+##### Framtida utvecklingsmöjligheter #####
+- Integrera Highcharts/D3/Raphael i Shiny-appen
