@@ -8,31 +8,31 @@ shinyUI(pageWithSidebar(
                 choices = keys,
                 selected = "Nettokostnad äldreomsorg, kr/inv"),
     
-#     selectInput(inputId = "kommun",
-#                 label = "Välj kommun",
-#                 choices = unique(KLData$Kommun),
-#                 selected = "Ale"),
+    #     selectInput(inputId = "kommun",
+    #                 label = "Välj kommun",
+    #                 choices = unique(KLData$Kommun),
+    #                 selected = "Ale"),
     
-	sliderInput(inputId="year",
-				label="Välj år",
-				min=min(allyears),
-				max=max(allyears),
-				value=2008,
-				step=1,
-				animate=T),
+    sliderInput(inputId="year",
+                label="Välj år",
+                min=min(allyears),
+                max=max(allyears),
+                value=2008,
+                step=1,
+                animate=T),
     
     sliderInput(inputId="kommunNr",
-    			label="KommunNr",
-    			min=1,
-    			max=length(unique(KLData$Kommun)),
-    			value=1,
-    			step=1,
-    			animate=T),
+                label="KommunNr",
+                min=1,
+                max=length(unique(KLData$Kommun)),
+                value=1,
+                step=1,
+                animate=T),
     
-#     selectInput(inputId = "year",
-#                 label="Välj år",
-#                 choices = allyears,
-#                 selected = "2010"),
+    #     selectInput(inputId = "year",
+    #                 label="Välj år",
+    #                 choices = allyears,
+    #                 selected = "2010"),
     
     selectInput(inputId = "graftyp",
                 label = "Välj graf",
@@ -51,7 +51,7 @@ shinyUI(pageWithSidebar(
                                    label = "Loess",
                                    value = FALSE)
     ),
-
+    
     checkboxInput(inputId = "tvavar",
                   label = strong("Lägg till andra variabel"),
                   value = FALSE),
@@ -74,9 +74,10 @@ shinyUI(pageWithSidebar(
   
   mainPanel(
     tabsetPanel(
-      tabPanel("Plot", plotOutput("main_plot", height="400px")),
-      tabPanel("Twoway", plotOutput("twoway_plot", height="500px")),
-      tabPanel("Session info", textOutput("sessioninfo"))
+      tabPanel("Start", h3(verbatimTextOutput("caption")), verbatimTextOutput("startpage"))
+      ,tabPanel("Plot", plotOutput("main_plot", height="400px"))
+      ,tabPanel("Twoway", plotOutput("twoway_plot", height="500px"))
+#       ,tabPanel("Session info", textOutput("sessioninfo"))
     )
   )
 ))

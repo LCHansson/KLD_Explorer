@@ -25,10 +25,6 @@ allyears <- unique(KLData$År)
 
 
 
-
-
-
-
 # Skapa wide-dataset och ta bort beskrivningsvariabeln
 # wide_time <- dcast(KLData, Kommun + Beskrivning + Variabelkod ~ År, value.var = "Värde")
 # KLData <- bakgr[,2:5]

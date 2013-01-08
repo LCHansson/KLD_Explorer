@@ -1,6 +1,21 @@
+# Include init file
 source("./1-init.R")
 
+# Create dimensional data frame
+commune <- cdb$get_v("Kommun")
+year <- cdb$get_v("År")
+dim_df <- data.frame(Kommun=commune, År=year)
+
 shinyServer(function(input, output) {
+  
+  output$caption <- reactiveText(function() {
+    "KLD Explorer 1.0 (technology preview)"
+  })
+  
+  output$startpage <- reactiveText(function() {
+      y <- source("0-startpage.R")
+      as.character(y)
+  })
   
   output$main_plot <- reactivePlot(function() {    
     p <- ggplot(data=KLData, aes(x=År, y=Värde, group=1, xmin=min(allyears), xmax=max(allyears)))
@@ -36,18 +51,20 @@ shinyServer(function(input, output) {
   
   
   output$twoway_plot <- reactivePlot(function() {  
-    commune <- cdb$get_v("Kommun")
-    year <- cdb$get_v("År")
+    # Copy dimensional DF
+    gg_df <- dim_df
+    
     xvar <- cdb$get_v(input$category)
     yvar <- cdb$get_v(input$categ2)
     
+    gg_df$var1 <- xvar
+    gg_df$var2 <- yvar
+    
     xname <- input$category
     yname <- input$categ2
+    names(gg_df) <- c("Kommun", "År", xname, yname)
     
-    df <- data.frame(commune, year, xvar, yvar)
-    names(df) <- c("Kommun", "År", xname, yname)
-
-    q <- ggplot(data=df, aes_string(x=xname, y=yname, color="Kommun"))
+    q <- ggplot(data=gg_df, aes_string(x=xname, y=yname, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
     q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
     q <- q + xlim(0,100) + ylim(0,100) + theme(legend.position = "right")
