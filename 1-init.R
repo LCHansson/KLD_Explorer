@@ -2,6 +2,7 @@
 source("./lib/helpers.R")
 # checkPackageDeps()
 library(ProjectTemplate)
+library(cacher)
 load.project()
 # setwd("~/R/KLD_Explorer")
 

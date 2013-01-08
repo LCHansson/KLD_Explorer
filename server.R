@@ -1,5 +1,7 @@
 # Include init file
 source("./1-init.R")
+kommunNamn <- unique(KLData$Kommun)
+kommunNamn <- sort(kommunNamn)
 
 # Create dimensional data frame
 commune <- cdb$get_v("Kommun")
@@ -8,46 +10,47 @@ dim_df <- data.frame(Kommun=commune, År=year)
 
 shinyServer(function(input, output) {
   
-  output$caption <- reactiveText(function() {
+  output$startcaption <- reactiveText(function() {
     "KLD Explorer 1.0 (technology preview)"
   })
   
   output$startpage <- reactiveText(function() {
-      y <- source("0-startpage.R")
-      as.character(y)
+    y <- source("0-startpage.R")
+    as.character(y)
   })
   
-  output$main_plot <- reactivePlot(function() {    
+  output$main_plot <- reactivePlot(function() {
+    #     browser()
     p <- ggplot(data=KLData, aes(x=År, y=Värde, group=1, xmin=min(allyears), xmax=max(allyears)))
     #   p <- p + layer(geom=input$graftyp, subset = .(Variabelkod == input$category & Kommun == input$kommun))
     p <- p + layer(
-      geom=input$graftyp, 
-      subset=.(Variabelkod == input$category & Kommun == unique(KLData$Kommun)[input$kommunNr]),
+      geom=input$graftyp,
+      subset=.(Variabelkod == input$category & Kommun == input$kommun),
       #     	title=KLData$Kommun[input$kommunNr]
       title="Test"
     )
     
-    #    p <- p + ylim(0,100)
     
     # Kod för utvärdering av två variabler med samma y-limits
     if(input$tvavar) {
-      p <- p + layer(geom=input$graftyp, subset=.(Variabelkod == input$categ2 & Kommun == unique(KLData$Kommun)[input$kommunNr]), aes(color="red", fill="red"))
+      p <- p + layer(geom=input$graftyp, subset=.(Variabelkod == input$categ2 & Kommun == input$kommun), aes(color="red", fill="red"))
       
       if (input$smooth) {
         #       	p <- p + geom_smooth(method=ifelse(input$loess == TRUE, "loess", "lm"), subset = .(Variabelkod == input$categ2 & Kommun == input$kommun), aes(group=1))
-        p <- p + geom_smooth(method=ifelse(input$loess == TRUE, "loess", "lm"), subset = .(Variabelkod == input$categ2 & Kommun == unique(KLData$Kommun)[input$kommunNr]), aes(group=1,color="red"))
+        p <- p + geom_smooth(method=ifelse(input$loess == TRUE, "loess", "lm"), subset = .(Variabelkod == input$categ2 & Kommun == input$kommun), aes(group=1,color="red"))
       }
     }
     
     if (input$smooth) {
-      p <- p + geom_smooth(method=ifelse(input$loess == TRUE, "loess", "lm"), subset = .(Variabelkod == input$category & Kommun == unique(KLData$Kommun)[input$kommunNr]), aes(group=1))
+      p <- p + geom_smooth(method=ifelse(input$loess == TRUE, "loess", "lm"), subset = .(Variabelkod == input$category & Kommun == input$kommun), aes(group=1))
     }
     
-    p <- p + ggtitle(unique(KLData$Kommun)[input$kommunNr])
+    p <- p + ggtitle(input$kommun)
     
     print(p)
-    print(paste("Kommun:", input$kommunNr, unique(KLData$Kommun)[input$kommunNr]))
+    print(paste("Kommun:", input$kommun))
   })
+  
   
   
   output$twoway_plot <- reactivePlot(function() {  
@@ -67,11 +70,39 @@ shinyServer(function(input, output) {
     q <- ggplot(data=gg_df, aes_string(x=xname, y=yname, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
     q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
-    q <- q + xlim(0,100) + ylim(0,100) + theme(legend.position = "right")
+    q <- q + labs(
+      x=Metadata[Metadata$Kod == input$category, "Kortnamn"],
+      y=Metadata[Metadata$Kod == input$categ2, "Kortnamn"]
+    )
+    
+    if(input$percentgraph) {
+      q <- q + xlim(0,100) + ylim(0,100)
+    }
+    
+    if(input$smooth) {
+      q <- q + geom_smooth(method=ifelse(input$loess, "loess", "lm"))
+    }
     
     print(q)
   })
   
+  output$devcaption <- reactiveText(function() {
+    "Utvecklingen av KLD Explorer"
+  })
+  
+  output$development <- reactiveText(function() {
+    y <- source("0-development.R")
+    as.character(y)
+  })
+  
+  output$morecaption <- reactiveText(function() {
+    "Mer om projektet"
+  })
+  
+  output$more_info <- reactiveText(function() {
+    y <- source("0-more_info.R")
+    as.character(y)
+  })
   
   output$sessioninfo <- reactiveText(function() {
     print(input$graftyp)

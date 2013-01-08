@@ -1,33 +1,34 @@
 shinyUI(pageWithSidebar(
   
-  headerPanel("KoladApp"),
+  headerPanel("KoladApp (technology preview)"),
   
   sidebarPanel(
     selectInput(inputId = "category",
-                label = "Välj variabel",
+                label = "Variabel 1",
                 choices = keys,
                 selected = "Nettokostnad äldreomsorg, kr/inv"),
     
-    #     selectInput(inputId = "kommun",
-    #                 label = "Välj kommun",
-    #                 choices = unique(KLData$Kommun),
-    #                 selected = "Ale"),
+    selectInput(inputId = "categ2",
+                label = "Variabel 2",
+                choices = keys,
+                selected = "Kostnad individ- och familjeomsorg, kr/inv"),
     
-    sliderInput(inputId="year",
-                label="Välj år",
-                min=min(allyears),
-                max=max(allyears),
-                value=2008,
-                step=1,
-                animate=T),
+    checkboxInput(inputId = "tvavar",
+                  label = strong("Visa variabel 2 i tidsserier"),
+                  value = TRUE),
     
-    sliderInput(inputId="kommunNr",
-                label="KommunNr",
-                min=1,
-                max=length(unique(KLData$Kommun)),
-                value=1,
-                step=1,
-                animate=T),
+    selectInput(inputId = "kommun",
+                label = "Välj kommun",
+                choices = sort(unique(KLData$Kommun)),
+                selected = "Ale"),
+    
+    #     sliderInput(inputId="kommunNr",
+    #                 label="KommunNr",
+    #                 min=1,
+    #                 max=length(unique(KLData$Kommun)),
+    #                 value=1,
+    #                 step=1,
+    #                 animate=T),
     
     #     selectInput(inputId = "year",
     #                 label="Välj år",
@@ -52,32 +53,40 @@ shinyUI(pageWithSidebar(
                                    value = FALSE)
     ),
     
-    checkboxInput(inputId = "tvavar",
-                  label = strong("Lägg till andra variabel"),
-                  value = FALSE),
+    # Options below only apply to twoway graph
     
-    # Display this only if tvavar is active
-    conditionalPanel(condition = "input.tvavar == true",
-                     selectInput(inputId = "categ2",
-                                 label = "Välj variabel",
-                                 choices = keys,
-                                 selected = "Kostnad individ- och familjeomsorg, kr/inv")
-    ),
+    helpText("OBS: Alternativen nedan är endast",
+             "tillämpbara i tvåvägsläge."),
+    
+    sliderInput(inputId="year",
+                label="Välj år",
+                min=min(allyears),
+                max=max(allyears),
+                value=2008,
+                step=1,
+                animate=T),
+    
+    checkboxInput(inputId="percentgraph",
+                label="Använd procentdimensioner (0-100)",
+                value=FALSE)
     
     # This is unused, invisible slider is necessary because of a bug
-    conditionalPanel(
-      condition = "false",
-      sliderInput("nothing", "This does nothing:",
-                  min = 1, max = 1000, value = 100)
-    )
+#     conditionalPanel(
+#       condition = "false",
+#       sliderInput("nothing", "This does nothing:",
+#                   min = 1, max = 1000, value = 100)
+#     )
   ),
   
   mainPanel(
     tabsetPanel(
-      tabPanel("Start", h3(verbatimTextOutput("caption")), verbatimTextOutput("startpage"))
-      ,tabPanel("Plot", plotOutput("main_plot", height="400px"))
-      ,tabPanel("Twoway", plotOutput("twoway_plot", height="500px"))
-#       ,tabPanel("Session info", textOutput("sessioninfo"))
+      tabPanel("Start", h3(verbatimTextOutput("startcaption")), verbatimTextOutput("startpage"))
+      ,tabPanel("Tidsserier", plotOutput("main_plot", height="400px"))
+      ,tabPanel("Tvåvägsplot", plotOutput("twoway_plot", height="500px"))
+      ,tabPanel("Utveckling", h3(verbatimTextOutput("devcaption")), verbatimTextOutput("development"))
+      ,tabPanel("Mer...", h3(verbatimTextOutput("morecaption")), verbatimTextOutput("more_info"))
+      #       ,tabPanel("Session info", textOutput("sessioninfo"))
     )
+    
   )
 ))
