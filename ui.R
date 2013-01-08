@@ -1,6 +1,6 @@
 shinyUI(pageWithSidebar(
   
-  headerPanel("KoladApp (technology preview)"),
+  headerPanel("KLD Explorer (technology preview)"),
   
   sidebarPanel(
     selectInput(inputId = "category",
