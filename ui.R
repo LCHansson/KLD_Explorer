@@ -4,12 +4,12 @@ shinyUI(pageWithSidebar(
   
   sidebarPanel(
     selectInput(inputId = "category",
-                label = "Variabel 1",
+                label = "Variabel 1:",
                 choices = keys,
                 selected = "Nettokostnad äldreomsorg, kr/inv"),
     
     selectInput(inputId = "categ2",
-                label = "Variabel 2",
+                label = "Variabel 2:",
                 choices = keys,
                 selected = "Kostnad individ- och familjeomsorg, kr/inv"),
     
@@ -17,26 +17,19 @@ shinyUI(pageWithSidebar(
                   label = strong("Visa regressionslinje"),
                   value = FALSE),
     
+    checkboxInput(inputId = "tvavar",
+                  label = strong("Visa variabel 2 i Tidsserier"),
+                  value = TRUE),
+    
     # Display this only if the density is shown
     conditionalPanel(condition = "input.smooth == true",
                      checkboxInput(inputId = "loess",
                                    label = "Loess",
                                    value = FALSE)
     ),
-#   ),
-#     
-#   sidebarPanel(
-    
-    # 
-    helpText("\n\tALTERNATIV FÖR TIDSSERIER"),
-    
-    checkboxInput(inputId = "tvavar",
-                  label = strong("Visa variabel 2 i tidsserier"),
-                  value = TRUE),
-    
     
     selectInput(inputId = "kommun",
-                label = "Välj kommun",
+                label = "Kommun för Tidsserier:",
                 choices = sort(unique(KLData$Kommun)),
                 selected = "Ale"),
     
@@ -54,17 +47,14 @@ shinyUI(pageWithSidebar(
     #                 selected = "2010"),
     
     selectInput(inputId = "graftyp",
-                label = "Välj graf",
+                label = "Plotkategori:",
                 choices = c("point",
-                            "boxplot",
                             "line",
                             "jitter")),
     
-    # Options below only apply to twoway graph
-    helpText(""),
-    
+    # Options below only apply to twoway graph    
     sliderInput(inputId="year",
-                label="Välj år",
+                label="År för Tvåvägsplot:",
                 min=min(allyears),
                 max=max(allyears),
                 value=2008,
