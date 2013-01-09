@@ -35,7 +35,8 @@ Om du är intresserad av att bidra till utvecklingen av KLD Explorer, hör gärn
 oss och utveckla gärna funktionaliteten i KLD Explorer. I kodförrådet på GitHub finns all
 information du behöver för att kunna hjälpa till, inklusive en roadmap för kommande releaser.
 
-
+Vi kan kontaktas på
+kldexplorer@frikod.se
 
 "
 
