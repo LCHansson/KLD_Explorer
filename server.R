@@ -11,7 +11,7 @@ dim_df <- data.frame(Kommun=commune, År=year)
 shinyServer(function(input, output) {
   
   output$startcaption <- reactiveText(function() {
-    "KLD Explorer 1.0 (technology preview)"
+    "KLD Explorer 0.1 (förhandstitt)"
   })
   
   output$startpage <- reactiveText(function() {
