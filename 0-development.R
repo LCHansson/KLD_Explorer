@@ -23,7 +23,7 @@ vilket möjliggör framtida integration av t.ex. JavaScript för ett större må
 i den grafiska analysen.
 
 Om du vill vara med och bidra till utvecklinen av KLD Explorer, hittar du länkar till all
-information du behöver under fliken 'Mer...' ovan.
+information du behöver under fliken 'Start' ovan.
 
 Nyheter om uppdateringar av KLD Explorer kommer att postas här på applikationssidan, och på
 vår utveckingsblogg visuelldata.wordpress.com.
