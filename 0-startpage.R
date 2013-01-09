@@ -3,7 +3,7 @@ x <-
 
 Klicka på Tidsserier eller Tvåvägsplot ovan för att börja!
 
-Datan iapplikationen är hämtad direkt från KOLADA:s hemsida www.kolada.se, men vi reserverar 
+Datan i applikationen är hämtad direkt från KOLADA:s hemsida www.kolada.se, men vi reserverar 
 oss mot eventuella felaktigheter som beror på felinmatning av data i vår databas. Kontrollera 
 alltid dina resultat mot källan!
 
@@ -33,7 +33,6 @@ https://github.com/prenumerant/KLD_Explorer
 Om du är intresserad av att bidra till utvecklingen av KLD Explorer, hör gärna av dig till
 oss och utveckla gärna funktionaliteten i KLD Explorer. I kodförrådet på GitHub finns all
 information du behöver för att kunna hjälpa till, inklusive en roadmap för kommande releaser.
-kapad text + integrering av det som stog på mer
 
 
 
