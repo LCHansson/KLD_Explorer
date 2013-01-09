@@ -80,7 +80,7 @@ shinyServer(function(input, output) {
     }
     
     if(input$smooth) {
-      q <- q + geom_smooth(method=ifelse(input$loess, "loess", "lm"))
+      q <- q + geom_smooth(method=ifelse(input$loess, "loess", "lm"), subset=.(År == input$year))
     }
     
     print(q)
