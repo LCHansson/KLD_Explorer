@@ -1,7 +1,8 @@
 x <- 
 "KLD Explorer är ett verktyg för att på grafisk och numerisk väg utforska KOLADA-data. 
 
-Klicka på Tidsserier eller Tvåvägsplot ovan för att börja!
+Klicka på Tidsserier eller Tvåvägsplot ovan för att börja! Använd menyn till vänster för att
+styra grafernas utseende.
 
 Datan i applikationen är hämtad direkt från KOLADA:s hemsida www.kolada.se, men vi reserverar 
 oss mot eventuella felaktigheter som beror på felinmatning av data i vår databas. Kontrollera 
