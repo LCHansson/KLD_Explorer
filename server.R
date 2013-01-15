@@ -6,37 +6,38 @@ kommunNamn <- sort(kommunNamn)
 # Create dimensional data frame
 commune <- cdb$get_v("Kommun")
 year <- cdb$get_v("År")
-dim_df <- data.frame(Kommun=commune, År=year)
+dim_df <- data.table(Kommun=commune, År=year)
 
 shinyServer(function(input, output) {
   
-  output$startcaption <- reactiveText(function() {
-    "KLD Explorer 0.1 (förhandstitt)"
-  })
   
+  #####################################################################
+  ##          FRONTPAGE/INFO PAGE                                    ##
+  #####################################################################
   output$startpage <- reactiveText(function() {
-    y <- source("0-startpage.R")
+    y <- source(paste("./text_pages/", input$startpage, sep=""))
     as.character(y)
   })
   
-  output$main_plot <- reactivePlot(function() {
+  
+  
+  #####################################################################
+  ##          TIME SERIES PLOT                                       ##
+  #####################################################################
+  output$timeseries_plot <- reactivePlot(function() {
     #     browser()
     p <- ggplot(data=KLData, aes(x=År, y=Värde, group=1, xmin=min(allyears), xmax=max(allyears)))
-    #   p <- p + layer(geom=input$graftyp, subset = .(Variabelkod == input$category & Kommun == input$kommun))
     p <- p + layer(
       geom=input$graftyp,
       subset=.(Variabelkod == input$category & Kommun == input$kommun),
-      #     	title=KLData$Kommun[input$kommunNr]
       title="Test"
     )
-    
     
     # Kod för utvärdering av två variabler med samma y-limits
     if(input$tvavar) {
       p <- p + layer(geom=input$graftyp, subset=.(Variabelkod == input$categ2 & Kommun == input$kommun), aes(color="red", fill="red"))
       
       if (input$smooth) {
-        #       	p <- p + geom_smooth(method=ifelse(input$loess == TRUE, "loess", "lm"), subset = .(Variabelkod == input$categ2 & Kommun == input$kommun), aes(group=1))
         p <- p + geom_smooth(method=ifelse(input$loess == TRUE, "loess", "lm"), subset = .(Variabelkod == input$categ2 & Kommun == input$kommun), aes(group=1,color="red"))
       }
     }
@@ -53,6 +54,9 @@ shinyServer(function(input, output) {
   
   
   
+  #####################################################################
+  ##          TWOWAY PLOT                                            ##
+  #####################################################################
   output$twoway_plot <- reactivePlot(function() {  
     # Copy dimensional DF
     gg_df <- dim_df
@@ -71,7 +75,7 @@ shinyServer(function(input, output) {
     q <- q + layer(geom="point", subset=.(År == input$year))
     q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
     q <- q + labs(
-      x=Metadata[Metadata$Kod == input$category, "Kortnamn"],
+      x=xname,
       y=Metadata[Metadata$Kod == input$categ2, "Kortnamn"]
     )
     
@@ -86,30 +90,75 @@ shinyServer(function(input, output) {
     print(q)
   })
   
-  output$devcaption <- reactiveText(function() {
-    "Utvecklingen av KLD Explorer"
+  
+  
+  #####################################################################
+  ##          MAP PLOT                                               ##
+  #####################################################################
+  
+  ##### SKAPA SVERIGEKARTA #####
+  # Ref: https://github.com/hadley/ggplot2/wiki/plotting-polygon-shapefiles
+  
+  output$map_plot <- reactivePlot(function() {
+    
+    # Set gpclibPermitStatus() to TRUE
+    # (Whatever that means...)
+    gpclibPermit()
+    
+    # Load Sweden Shapefile
+    sverige = readOGR(dsn="./mapdata/kommuner_SCB/", layer="Kommungranser_SCB_07")
+    sverige@data$id = rownames(sverige@data)
+    sverige.points = fortify(sverige, region="id")
+    sverige.df = join(sverige.points, sverige@data, by="id")
+    
+    # Merge with KLD data
+    KL_mergeframe <- KLData[KLData$Variabelkod == input$category & KLData$År == input$year ,c("Kommun", "Värde")]
+    sverige.df.KL <- merge(sverige.df, KL_mergeframe, by.x="KNNAMN", by.y="Kommun", all=F)
+    
+    # Plot Sweden map
+    p <- ggplot(sverige.df.KL) + 
+      aes(long,lat,group=group,fill=Värde) + 
+      geom_polygon() +
+      #   geom_path(color="white") +
+      coord_equal() +
+      scale_fill_continuous() +
+      theme_bw()
+    
+    print(p)
+    
+    # Add map locations for annotations
+    # label_points = coordinates(sverige)
+    # label_points can then be used as mapping coordinates for geom_text()
+    
   })
   
-  output$development <- reactiveText(function() {
-    y <- source("0-development.R")
-    as.character(y)
-  })
+  #####################################################################
+  ##          OLD (FOR DELETION)                                     ##
+  #####################################################################
+  #   output$devcaption <- reactiveText(function() {
+  #     "Utvecklingen av KLD Explorer"
+  #   })
+  #   
+  #   output$development <- reactiveText(function() {
+  #     y <- source("0-development.R")
+  #     as.character(y)
+  #   })
+  #   
+  #   output$morecaption <- reactiveText(function() {
+  #     "Mer om projektet"
+  #   })
+  #   
+  #   output$more_info <- reactiveText(function() {
+  #     y <- source("0-more_info.R")
+  #     as.character(y)
+  #   })
   
-  output$morecaption <- reactiveText(function() {
-    "Mer om projektet"
-  })
-  
-  output$more_info <- reactiveText(function() {
-    y <- source("0-more_info.R")
-    as.character(y)
-  })
-  
-  output$sessioninfo <- reactiveText(function() {
-    print(input$graftyp)
-    print(input$category)
-    print(input$smooth)
-    print(paste("Var1: ",input$category, ", var2: ", input$categ2))
-    print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
-    print(paste("Working directory:", getwd()))
-  })
+  #   output$sessioninfo <- reactiveText(function() {
+  #     print(input$graftyp)
+  #     print(input$category)
+  #     print(input$smooth)
+  #     print(paste("Var1: ",input$category, ", var2: ", input$categ2))
+  #     print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
+  #     print(paste("Working directory:", getwd()))
+  #   })
 })

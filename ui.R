@@ -1,17 +1,26 @@
 shinyUI(pageWithSidebar(
   
-  headerPanel("KLD Explorer"),
+  headerPanel("KLD Explorer 0.2rc"),
   
   sidebarPanel(
+    selectInput(inputId = startpage,
+                label="About KLD Explorer",
+                choices = c(
+                  "startpage" = "0-startpage.R"),
+                selected = "0-startpage.R"
+    ),
+    
     selectInput(inputId = "category",
                 label = "Variabel 1:",
                 choices = keys,
                 selected = "Nettokostnad äldreomsorg, kr/inv"),
     
-    selectInput(inputId = "categ2",
-                label = "Variabel 2:",
-                choices = keys,
-                selected = "Kostnad individ- och familjeomsorg, kr/inv"),
+    conditionalPanel(condition = "input.tab != 'Start'",
+                     selectInput(inputId = "categ2",
+                                 label = "Variabel 2:",
+                                 choices = keys,
+                                 selected = "Kostnad individ- och familjeomsorg, kr/inv")
+    ),
     
     checkboxInput(inputId = "smooth",
                   label = strong("Visa regressionslinje"),
@@ -33,18 +42,7 @@ shinyUI(pageWithSidebar(
                 choices = sort(unique(KLData$Kommun)),
                 selected = "Ale"),
     
-    #     sliderInput(inputId="kommunNr",
-    #                 label="KommunNr",
-    #                 min=1,
-    #                 max=length(unique(KLData$Kommun)),
-    #                 value=1,
-    #                 step=1,
-    #                 animate=T),
     
-    #     selectInput(inputId = "year",
-    #                 label="Välj år",
-    #                 choices = allyears,
-    #                 selected = "2010"),
     
     selectInput(inputId = "graftyp",
                 label = "Plotkategori:",
@@ -62,25 +60,25 @@ shinyUI(pageWithSidebar(
                 animate=T),
     
     checkboxInput(inputId="percentgraph",
-                label="Använd procentdimensioner (0-100)",
-                value=FALSE)
+                  label="Använd procentdimensioner (0-100)",
+                  value=FALSE)
     
     # This is unused, invisible slider is necessary because of a bug
-#     conditionalPanel(
-#       condition = "false",
-#       sliderInput("nothing", "This does nothing:",
-#                   min = 1, max = 1000, value = 100)
-#     )
+    ,conditionalPanel(
+      condition = "false",
+      sliderInput("nothing", "This does nothing:",
+                  min = 1, max = 1000, value = 100)
+    )
   ),
   
   mainPanel(
     tabsetPanel(
-      tabPanel("Start", h3(verbatimTextOutput("startcaption")), verbatimTextOutput("startpage"))
-      ,tabPanel("Tidsserier", plotOutput("main_plot", height="400px"))
+      tabPanel("Start", verbatimTextOutput("startpage"))
+      ,tabPanel("Tidsserier", plotOutput("timeseries_plot", height="400px"))
       ,tabPanel("Tvåvägsplot", plotOutput("twoway_plot", height="500px"))
-      ,tabPanel("Utveckling", h3(verbatimTextOutput("devcaption")), verbatimTextOutput("development"))
-#       ,tabPanel("Mer...", h3(verbatimTextOutput("morecaption")), verbatimTextOutput("more_info"))
-      #       ,tabPanel("Session info", textOutput("sessioninfo"))
+      ,tabPanel("Kartplot", plotOutput("map_plot", height="800px"))
+      #       ,tabPanel("Utveckling", h3(verbatimTextOutput("devcaption")), verbatimTextOutput("development"))
+      ,id="tab"
     )
     
   )
