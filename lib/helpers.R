@@ -3,11 +3,11 @@ library(devtools)
 ##### INIT #####
 checkPackageDeps <- function() {
   requiredPackages <- c("ggplot2", "sp", "lubridate", "devtools", "ProjectTemplate", "reshape2", "coldbir", "gpclib", "maptools", "rgdal", "data.table")
-  
+
   for(package in requiredPackages) {
     if (!package %in% installed.packages()) {
       tryCatch(install.packages(package),
-               error=install_github(package, "SthlmR"))# TODO: Implementera install_github om install.packages ger ett error
+               error=install_github(package, "SthlmR", "v0.1"))# TODO: Implementera install_github om install.packages ger ett error
     } 
   }
 }

@@ -14,11 +14,10 @@ shinyServer(function(input, output) {
   #####################################################################
   ##          FRONTPAGE/INFO PAGE                                    ##
   #####################################################################
-  output$startpage <- reactiveText(function() {
+  output$frontpage <- reactiveText(function() {
     source(paste("./text_pages/", input$frontpage_text, sep=""))
-    x <- "hej"
+#     x <- "hej"
     as.character(x)
-#     as.character(x)
   })
   
   
