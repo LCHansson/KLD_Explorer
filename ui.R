@@ -3,11 +3,12 @@ shinyUI(pageWithSidebar(
   headerPanel("KLD Explorer 0.2rc"),
   
   sidebarPanel(
-    selectInput(inputId = startpage,
+    selectInput(inputId = "forntpage_text",
                 label="About KLD Explorer",
                 choices = c(
-                  "startpage" = "0-startpage.R"),
-                selected = "0-startpage.R"
+                  "Startsida" = "0-startpage.R",
+                  "Mer om KLD Explorer" = "0-more_info.R"),
+                selected = "Startsida"
     ),
     
     selectInput(inputId = "category",
@@ -73,7 +74,7 @@ shinyUI(pageWithSidebar(
   
   mainPanel(
     tabsetPanel(
-      tabPanel("Start", verbatimTextOutput("startpage"))
+      tabPanel("Start", verbatimTextOutput("frontpage"))
       ,tabPanel("Tidsserier", plotOutput("timeseries_plot", height="400px"))
       ,tabPanel("Tvåvägsplot", plotOutput("twoway_plot", height="500px"))
       ,tabPanel("Kartplot", plotOutput("map_plot", height="800px"))
