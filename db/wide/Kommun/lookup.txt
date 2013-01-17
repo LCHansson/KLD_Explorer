@@ -238,8 +238,8 @@ key	value
 237	Uddevalla
 238	Ulricehamn
 239	Umeå
-240	Upplands Väsby
-241	Upplands-Bro
+240	Upplands-Bro
+241	Upplands Väsby
 242	Uppsala
 243	Uppvidinge
 244	Vadstena
