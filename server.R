@@ -1,11 +1,14 @@
 # Include init file
 #source("./1-init.R")
+library(ProjectTemplate)
+load.project()
+
 kommunNamn <- unique(KLData$Kommun)
 kommunNamn <- sort(kommunNamn)
 
 # Create dimensional data frame
-commune <- cdb$get_v("Kommun")
-year <- cdb$get_v("År")
+commune <- wide_data$get_v("Kommun")
+year <- wide_data$get_v("År")
 dim_df <- data.table(Kommun=commune, År=year)
 
 shinyServer(function(input, output) {
@@ -16,10 +19,10 @@ shinyServer(function(input, output) {
   getOutputData <- reactive(function() {
     gg_df <- dim_df
     
-    xvar <- cdb$get_v(input$category)
+    xvar <- wide_data$get_v(input$category)
     gg_df$var1 <- xvar
     
-    yvar <- cdb$get_v(input$categ2)
+    yvar <- wide_data$get_v(input$categ2)
     gg_df$var2 <- yvar
     
     xname <- input$category
@@ -84,8 +87,8 @@ shinyServer(function(input, output) {
     gg_df <- getOutputData()
 #     gg_df <- dim_df
 #     
-#     xvar <- cdb$get_v(input$category)
-#     yvar <- cdb$get_v(input$categ2)
+#     xvar <- wide_data$get_v(input$category)
+#     yvar <- wide_data$get_v(input$categ2)
 #     
 #     gg_df$var1 <- xvar
 #     gg_df$var2 <- yvar
