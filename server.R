@@ -132,7 +132,7 @@ shinyServer(function(input, output) {
     gpclibPermit()
     
     # Load Sweden Shapefile
-    sverige = readOGR(dsn="./mapdata/Kommuner_SCB/", layer="Kommungranser_SCB_07")
+    sverige = readOGR(dsn="./mapdata/Kommuner_SCB/", layer="Kommungranser_SCB_07", input_field_name_encoding="ISO8859-1")
     sverige@data$id = rownames(sverige@data)
     sverige.points = fortify(sverige, region="id")
     sverige.df = join(sverige.points, sverige@data, by="id")
