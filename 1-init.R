@@ -30,8 +30,7 @@ allyears <- unique(KLData$År)
 # KLData <- bakgr[,2:5]
 cdb <- coldbir:::db$new('./db/cdb')
 
-
-# wide_var <- dcast(KLData, Kommun + År ~ Variabelkod, value.var="Värde")
+wide_var <- dcast(KLData, Kommun + År ~ Variabelkod, value.var="Värde")
 # wide <- reshape(bakgr, varying=c("Kod", "Beskrivning", "value"), v.names="test", timevar="År", idvar="Kommun", direction="wide")
 
 allyears <- unique(KLData$År)

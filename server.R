@@ -1,5 +1,5 @@
 # Include init file
-source("./1-init.R")
+#source("./1-init.R")
 kommunNamn <- unique(KLData$Kommun)
 kommunNamn <- sort(kommunNamn)
 
@@ -10,13 +10,33 @@ dim_df <- data.table(Kommun=commune, År=year)
 
 shinyServer(function(input, output) {
   
+  #####################################################################
+  ##          FRONTPAGE/INFO PAGE                                    ##
+  #####################################################################
+  getOutputData <- reactive(function() {
+    gg_df <- dim_df
+    
+    xvar <- cdb$get_v(input$category)
+    gg_df$var1 <- xvar
+    
+    yvar <- cdb$get_v(input$categ2)
+    gg_df$var2 <- yvar
+    
+    xname <- input$category
+    yname <- input$categ2
+    setnames(gg_df, 1:4, c("Kommun", "År", xname, yname))
+    
+    gg_df
+  })
+  
   
   #####################################################################
   ##          FRONTPAGE/INFO PAGE                                    ##
   #####################################################################
   output$frontpage <- reactiveText(function() {
     source(paste("./text_pages/", input$frontpage_text, sep=""))
-#     x <- "hej"
+    #     x <- as.character(input$frontpage_text)
+    #     print(x)
     as.character(x)
   })
   
@@ -60,23 +80,25 @@ shinyServer(function(input, output) {
   #####################################################################
   output$twoway_plot <- reactivePlot(function() {  
     # Copy dimensional DF
-    gg_df <- dim_df
     
-    xvar <- cdb$get_v(input$category)
-    yvar <- cdb$get_v(input$categ2)
+    gg_df <- getOutputData()
+#     gg_df <- dim_df
+#     
+#     xvar <- cdb$get_v(input$category)
+#     yvar <- cdb$get_v(input$categ2)
+#     
+#     gg_df$var1 <- xvar
+#     gg_df$var2 <- yvar
+#     
+#     xname <- input$category
+#     yname <- input$categ2
+#     setnames(gg_df, 1:4, c("Kommun", "År", xname, yname))
     
-    gg_df$var1 <- xvar
-    gg_df$var2 <- yvar
-    
-    xname <- input$category
-    yname <- input$categ2
-    names(gg_df) <- c("Kommun", "År", xname, yname)
-    
-    q <- ggplot(data=gg_df, aes_string(x=xname, y=yname, color="Kommun"))
+    q <- ggplot(data=gg_df, aes_string(x=input$category, y=input$categ2, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
     q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
     q <- q + labs(
-      x=xname,
+      x=input$category,
       y=Metadata[Metadata$Kod == input$categ2, "Kortnamn"]
     )
     
@@ -107,31 +129,47 @@ shinyServer(function(input, output) {
     gpclibPermit()
     
     # Load Sweden Shapefile
-    sverige = readOGR(dsn="./mapdata/kommuner_SCB/", layer="Kommungranser_SCB_07")
+    sverige = readOGR(dsn="./mapdata/Kommuner_SCB/", layer="Kommungranser_SCB_07")
     sverige@data$id = rownames(sverige@data)
     sverige.points = fortify(sverige, region="id")
     sverige.df = join(sverige.points, sverige@data, by="id")
     
     # Merge with KLD data
     KL_mergeframe <- KLData[KLData$Variabelkod == input$category & KLData$År == input$year ,c("Kommun", "Värde")]
-    sverige.df.KL <- merge(sverige.df, KL_mergeframe, by.x="KNNAMN", by.y="Kommun", all=F)
+    setnames(KL_mergeframe, 1:2, c("KNNAMN", "Värde"))
+    sverige.df.KL <- join(sverige.df, KL_mergeframe, by="KNNAMN", type="left")
     
     # Plot Sweden map
-    p <- ggplot(sverige.df.KL) + 
+    p <- ggplot(sverige.df.KL, na.rm=TRUE) + 
       aes(long,lat,group=group,fill=Värde) + 
       geom_polygon() +
       #   geom_path(color="white") +
       coord_equal() +
-      scale_fill_continuous() +
+      scale_fill_continuous(na.value="gray80") +
       theme_bw()
     
     print(p)
+    
+#     browser()
     
     # Add map locations for annotations
     # label_points = coordinates(sverige)
     # label_points can then be used as mapping coordinates for geom_text()
     
   })
+  
+  
+  
+  #####################################################################
+  ##          DOWNLOAD FUNCTION                                      ##
+  #####################################################################
+  output$downloadData <- downloadHandler(
+    filename = function() {paste(input$category, '.csv', sep='') },
+    content = function(file) {
+      write.csv(getOutputData(), file)
+    }
+  )
+  
   
   #####################################################################
   ##          OLD (FOR DELETION)                                     ##
@@ -154,12 +192,12 @@ shinyServer(function(input, output) {
   #     as.character(y)
   #   })
   
-  #   output$sessioninfo <- reactiveText(function() {
-  #     print(input$graftyp)
-  #     print(input$category)
-  #     print(input$smooth)
-  #     print(paste("Var1: ",input$category, ", var2: ", input$categ2))
-  #     print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
-  #     print(paste("Working directory:", getwd()))
-  #   })
+  output$sessioninfo <- reactiveText(function() {
+    print(input$graftyp)
+    print(input$category)
+    print(input$smooth)
+    print(paste("Var1: ",input$category, ", var2: ", input$categ2))
+    print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
+    print(paste("Working directory:", getwd()))
+  })
 })
