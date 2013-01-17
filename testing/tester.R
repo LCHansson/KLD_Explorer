@@ -1,3 +1,5 @@
+
+
 commune2 <- cdb$get_v("Kommun")
 year2 <- cdb$get_v("År")
 

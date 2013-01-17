@@ -1,7 +1,3 @@
-##### CREATE DB FROM KOLADA INDATA #####
-system("python import_xls.py")
-
-
 ##### DEV SPACE #####
 datafiles <- listKLIndata()
 
@@ -15,8 +11,7 @@ filename <- paste(getwd(),"/scraper/out,", sep="")
 wb <- loadWorkbook(filename)
 df <- readWorksheet(filename)
 
-
-mdcdb <- put_db(df=Metadata.corr,path="./db/cdb/",lookup=T)
+wide_data$get_v('Kommun')
 
 test <- get_v(name="Kortnamn", path="./db/")
 testdb <- get_db("./db")

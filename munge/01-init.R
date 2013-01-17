@@ -1,8 +1,8 @@
 ##### INIT #####
-source("./lib/helpers.R")
+# source("./lib/helpers.R")
 checkPackageDeps()
-library(ProjectTemplate)
-load.project()
+# library(ProjectTemplate)
+# load.project()
 # setwd("~/R/KLD_Explorer")
 
 
@@ -28,7 +28,7 @@ allyears <- unique(KLData$År)
 # Skapa wide-dataset och ta bort beskrivningsvariabeln
 # wide_time <- dcast(KLData, Kommun + Beskrivning + Variabelkod ~ År, value.var = "Värde")
 # KLData <- bakgr[,2:5]
-cdb <- coldbir:::db$new('./db/cdb')
+wide_data <- coldbir:::db$new('./db/wide')
 
 wide_var <- dcast(KLData, Kommun + År ~ Variabelkod, value.var="Värde")
 # wide <- reshape(bakgr, varying=c("Kod", "Beskrivning", "value"), v.names="test", timevar="År", idvar="Kommun", direction="wide")
