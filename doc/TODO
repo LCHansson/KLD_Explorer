@@ -5,6 +5,7 @@ ATT GÖRA
 
 ##### RELEASEPLANERING #####
 ----- VERSION 0.3 -----
+- Läs enbart från Coldbir-databasen
 - Indelning i regioner för kartplotten
 - Buggfix: Error vid regressionskurva när ena variabeln saknar värden
 - Dynamiskt anpassande "År"-slider
@@ -13,9 +14,11 @@ ATT GÖRA
 - Utred Google Analytics-tjänst för KLD Explorer
 - Utred om vi kan lägga upp KLD Explorer på egen server
 - Ändra alla namnsträngar från "KoladApp" till "KLD Explorer"
-- Läs enbart från Coldbir-databasen
 - Skriv om till Coldbir v0.2.
 
 
 ##### Framtida utvecklingsmöjligheter #####
 - Integrera Highcharts/D3/Raphael i Shiny-appen
+- Dela (via FB/Twitter/Mail/etc)
+- Länkförkortare
+- Spara variabelval mellan olika plottar och analysverktyg

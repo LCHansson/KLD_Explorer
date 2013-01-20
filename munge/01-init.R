@@ -8,9 +8,14 @@ Sys.setlocale("LC_ALL", "sv_SE.UTF-8")
 
 
 ##### LÄS IN KOLADA-DATA ##### 
+
+# TODO: Remove this. Implement Metadata fetching from the Coldbir Metadata db instead.
 Metadata <- loadKLMetadata()
 
+
 ## NEDLADDAD DATA (format: long)
+
+# TODO: Remove this. Read all data from the Coldbir Wide db instead.
 KLData <- loadKLData()
 
 ## LÄS PÅ METADATA PÅ KLData
