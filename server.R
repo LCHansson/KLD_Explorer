@@ -103,7 +103,7 @@ shinyServer(function(input, output) {
     
     q <- ggplot(data=gg_df, aes_string(x=input$category, y=input$categ2, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
-    aes
+
     
     # TODO: Feetch this data from the Coldbir Metadata db
     q <- q + labs(
