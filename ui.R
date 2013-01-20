@@ -85,9 +85,9 @@ shinyUI(pageWithSidebar(
                                  animate=T
                      )),
     
-    conditionalPanel(plotCond,
+    conditionalPanel("input.tab == 'Tvåvägsplot'",
                      checkboxInput(inputId="percentgraph",
-                                   label="Använd procentdimensioner (0-100)",
+                                   label="Anpassa grafen för procentvariabler",
                                    value=FALSE
                      )),
     

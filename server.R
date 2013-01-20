@@ -103,8 +103,7 @@ shinyServer(function(input, output) {
     
     q <- ggplot(data=gg_df, aes_string(x=input$category, y=input$categ2, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
-    q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
-    
+    aes
     
     # TODO: Feetch this data from the Coldbir Metadata db
     q <- q + labs(
@@ -115,10 +114,11 @@ shinyServer(function(input, output) {
     
     if(input$percentgraph) {
       q <- q + xlim(0,100) + ylim(0,100)
+      q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
     }
     
     if(input$smooth) {
-      q <- q + geom_smooth(method=ifelse(input$loess, "loess", "lm"), subset=.(År == input$year))
+      q <- q + geom_smooth(method=ifelse(input$loess, "loess", "lm"), se=FALSE, subset=.(År == input$year))
     }
     
     print(q)
@@ -159,7 +159,10 @@ shinyServer(function(input, output) {
       #   geom_path(color="white") +
       coord_equal() +
       scale_fill_continuous(na.value="gray80") +
-      theme_bw()
+      theme_bw() +
+      theme(axis.title = element_blank(),
+            axis.text = element_blank(),
+            axis.ticks = element_blank())
     
     print(p)
     
