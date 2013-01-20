@@ -50,12 +50,16 @@ shinyServer(function(input, output) {
   #####################################################################
   output$timeseries_plot <- reactivePlot(function() {
     #     browser()
+    
+    # TODO: Change from KLData to the Coldbir wide db
+    # (This might require implementing Coldbir Dimensions to data)
     p <- ggplot(data=KLData, aes(x=År, y=Värde, group=1, xmin=min(allyears), xmax=max(allyears)))
     p <- p + layer(
       geom=input$graftyp,
       subset=.(Variabelkod == input$category & Kommun == input$kommun),
       title="Test"
     )
+
     
     # Kod för utvärdering av två variabler med samma y-limits
     if(input$tvavar) {
@@ -100,10 +104,14 @@ shinyServer(function(input, output) {
     q <- ggplot(data=gg_df, aes_string(x=input$category, y=input$categ2, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
     q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
+    
+    
+    # TODO: Feetch this data from the Coldbir Metadata db
     q <- q + labs(
-      x=input$category,
+      x=Metadata[Metadata$Kod == input$category, "Kortnamn"],
       y=Metadata[Metadata$Kod == input$categ2, "Kortnamn"]
     )
+    
     
     if(input$percentgraph) {
       q <- q + xlim(0,100) + ylim(0,100)
@@ -137,10 +145,12 @@ shinyServer(function(input, output) {
     sverige.points = fortify(sverige, region="id")
     sverige.df = join(sverige.points, sverige@data, by="id")
     
+    # TODO: Change from KLData to the Coldbir db.
     # Merge with KLD data
     KL_mergeframe <- KLData[KLData$Variabelkod == input$category & KLData$År == input$year ,c("Kommun", "Värde")]
     setnames(KL_mergeframe, 1:2, c("KNNAMN", "Värde"))
     sverige.df.KL <- join(sverige.df, KL_mergeframe, by="KNNAMN", type="left")
+
     
     # Plot Sweden map
     p <- ggplot(sverige.df.KL, na.rm=TRUE) + 
