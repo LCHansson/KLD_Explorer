@@ -14,7 +14,7 @@ dim_df <- data.table(Kommun=commune, År=year)
 shinyServer(function(input, output) {
   
   #####################################################################
-  ##          FRONTPAGE/INFO PAGE                                    ##
+  ##          Internal functions                                     ##
   #####################################################################
   getOutputData <- reactive(function() {
     gg_df <- dim_df
@@ -51,19 +51,38 @@ shinyServer(function(input, output) {
   output$timeseries_plot <- reactivePlot(function() {
     #     browser()
     
+    gg_df <- getOutputData()
+
+    kom_key <- get_lookup("Kommun", "./db/wide")
+    
+    setnames(gg_df, c(input$category, input$categ2), c("primary", "secondary"))
+    
     # TODO: Change from KLData to the Coldbir wide db
     # (This might require implementing Coldbir Dimensions to data)
-    p <- ggplot(data=KLData, aes(x=År, y=Värde, group=1, xmin=min(allyears), xmax=max(allyears)))
-    p <- p + layer(
-      geom=input$graftyp,
-      subset=.(Variabelkod == input$category & Kommun == input$kommun),
-      title="Test"
+    p <- ggplot(data=gg_df, 
+                aes(x=År,
+                    y=primary,
+                    xmin=min(allyears), 
+                    xmax=max(allyears)
+                ),
+                subset=.(Kommun == 5),
+                group=1
     )
-
+    
+#     browser()
+    
+    p <- p + layer(
+      geom=input$graftyp
+    )
+    
     
     # Kod för utvärdering av två variabler med samma y-limits
     if(input$tvavar) {
-      p <- p + layer(geom=input$graftyp, subset=.(Variabelkod == input$categ2 & Kommun == input$kommun), aes(color="red", fill="red"))
+      p <- p + layer(
+        geom=input$graftyp, 
+        subset=.(Variabelkod == input$categ2 & Kommun == input$kommun), 
+        aes(color="red", fill="red")
+      )
       
       if (input$smooth) {
         p <- p + geom_smooth(method=ifelse(input$loess == TRUE, "loess", "lm"), subset = .(Variabelkod == input$categ2 & Kommun == input$kommun), aes(group=1,color="red"))
@@ -86,24 +105,12 @@ shinyServer(function(input, output) {
   ##          TWOWAY PLOT                                            ##
   #####################################################################
   output$twoway_plot <- reactivePlot(function() {  
-    # Copy dimensional DF
     
     gg_df <- getOutputData()
-#     gg_df <- dim_df
-#     
-#     xvar <- wide_data$get_v(input$category)
-#     yvar <- wide_data$get_v(input$categ2)
-#     
-#     gg_df$var1 <- xvar
-#     gg_df$var2 <- yvar
-#     
-#     xname <- input$category
-#     yname <- input$categ2
-#     setnames(gg_df, 1:4, c("Kommun", "År", xname, yname))
     
     q <- ggplot(data=gg_df, aes_string(x=input$category, y=input$categ2, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
-
+    
     
     # TODO: Feetch this data from the Coldbir Metadata db
     q <- q + labs(
@@ -150,7 +157,7 @@ shinyServer(function(input, output) {
     KL_mergeframe <- KLData[KLData$Variabelkod == input$category & KLData$År == input$year ,c("Kommun", "Värde")]
     setnames(KL_mergeframe, 1:2, c("KNNAMN", "Värde"))
     sverige.df.KL <- join(sverige.df, KL_mergeframe, by="KNNAMN", type="left")
-
+    
     
     # Plot Sweden map
     p <- ggplot(sverige.df.KL, na.rm=TRUE) + 
@@ -166,7 +173,7 @@ shinyServer(function(input, output) {
     
     print(p)
     
-#     browser()
+    #     browser()
     
     # Add map locations for annotations
     # label_points = coordinates(sverige)
@@ -188,25 +195,8 @@ shinyServer(function(input, output) {
   
   
   #####################################################################
-  ##          OLD (FOR DELETION)                                     ##
+  ##          SESSION INFO (for evaluation purposes only)            ##
   #####################################################################
-  #   output$devcaption <- reactiveText(function() {
-  #     "Utvecklingen av KLD Explorer"
-  #   })
-  #   
-  #   output$development <- reactiveText(function() {
-  #     y <- source("0-development.R")
-  #     as.character(y)
-  #   })
-  #   
-  #   output$morecaption <- reactiveText(function() {
-  #     "Mer om projektet"
-  #   })
-  #   
-  #   output$more_info <- reactiveText(function() {
-  #     y <- source("0-more_info.R")
-  #     as.character(y)
-  #   })
   
   output$sessioninfo <- reactiveText(function() {
     print(input$graftyp)

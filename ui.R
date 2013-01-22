@@ -21,7 +21,7 @@ plotCond  <- "input.tab == 'Tidsserier' || input.tab == 'Tvåvägsplot'"
 
 shinyUI(pageWithSidebar(
   
-  headerPanel("KLD Explorer 0.2"),
+  headerPanel(paste("KLD Explorer", kVersion, sep=" ")),
   
   sidebarPanel(
     conditionalPanel(condition = "input.tab == 'Start'",
@@ -108,7 +108,8 @@ shinyUI(pageWithSidebar(
       ,tabPanel("Tidsserier", plotOutput("timeseries_plot", height="400px"))
       ,tabPanel("Tvåvägsplot", plotOutput("twoway_plot", height="500px"))
       ,tabPanel("Kartplot", plotOutput("map_plot", height="800px"))
-      #       ,tabPanel("Utveckling", h3(verbatimTextOutput("devcaption")), verbatimTextOutput("development"))
+#       ,tabPanel("")
+#       ,tabPanel("Utveckling", h3(verbatimTextOutput("devcaption")), verbatimTextOutput("development"))
 #       ,tabPanel("Session info", verbatimTextOutput("sessioninfo"))
       ,id="tab"
     )
