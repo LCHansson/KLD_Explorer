@@ -13,6 +13,7 @@ dim_DT <- data.table(Kommun=commune, År=year, key="Kommun")
 
 kom_key <- get_lookup("Kommun", "./db/wide")
 
+<<<<<<< HEAD
 ## Create Sweden map data
 # Set gpclibPermitStatus() to TRUE
 # (Whatever that means...)
@@ -156,6 +157,10 @@ shinyServer(function(input, output) {
   # Ref: https://github.com/hadley/ggplot2/wiki/plotting-polygon-shapefiles
   
   output$map_plot <- reactivePlot(function() {
+    
+    # Set gpclibPermitStatus() to TRUE
+    # (Whatever that means...)
+    gpclibPermit()
     
     gg_DT <- subset(getOutputData(), År == input$year)[,c("Kommun", input$category), with=F][kom_key]
         
