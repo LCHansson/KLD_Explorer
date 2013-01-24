@@ -106,6 +106,11 @@ shinyServer(function(input, output) {
     }
     
     p <- p + ggtitle(input$kommun)
+    p <- p + labs(
+      x="År",
+      y=ifelse(!input$tvavar, "Variabel 1 (svart)", "Variabel 1 (svart), variabel 2 (röd)")
+    )
+    
     
     print(p)
   })
@@ -122,8 +127,6 @@ shinyServer(function(input, output) {
     q <- ggplot(data=gg_DT, aes_string(x=input$category, y=input$categ2, color="Kommun"))
     q <- q + layer(geom="point", subset=.(År == input$year))
     
-    
-    # TODO: Fetch this data from the Coldbir Metadata db
     q <- q + labs(
       x=Metadata[Metadata$Kod == input$category, "Kortnamn"],
       y=Metadata[Metadata$Kod == input$categ2, "Kortnamn"]
@@ -138,6 +141,8 @@ shinyServer(function(input, output) {
     if(input$smooth) {
       q <- q + geom_smooth(method=ifelse(input$loess, "loess", "lm"), se=FALSE, subset=.(År == input$year))
     }
+    
+    q <- q + ggtitle("Spridning per kommun")
     
     print(q)
   })

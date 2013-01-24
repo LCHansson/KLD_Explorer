@@ -1,2 +1,2 @@
 ##### KLD EXPLORER CONSTANTS #####
-kVersion <- "0.3 beta"
+kVersion <- "0.2.1"
