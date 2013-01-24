@@ -13,7 +13,6 @@ dim_DT <- data.table(Kommun=commune, År=year, key="Kommun")
 
 kom_key <- get_lookup("Kommun", "./db/wide")
 
-<<<<<<< HEAD
 ## Create Sweden map data
 # Set gpclibPermitStatus() to TRUE
 # (Whatever that means...)
