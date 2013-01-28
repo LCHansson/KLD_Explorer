@@ -4,21 +4,30 @@ ATT GÖRA
 - Lägg upp projekt-wiki på Github med färgkodad funktionalitets-TODO
 
 ##### RELEASEPLANERING #####
------ VERSION 0.3 -----
+===== VERSION 0.3 =====
+----- BACKEND -----
 - Läs enbart från Coldbir-databasen
-- Indelning i regioner för kartplotten
+- Skriv om till Coldbir v0.2.
 - Buggfix: Error vid regressionskurva när ena variabeln saknar värden
-- Dynamiskt anpassande "År"-slider
 - Prototyp för numerisk analys/hypotestestning
-- "Tidsseriekvast"-test
 - Utred Google Analytics-tjänst för KLD Explorer
 - Utred om vi kan lägga upp KLD Explorer på egen server
 - Ändra alla namnsträngar från "KoladApp" till "KLD Explorer"
-- Skriv om till Coldbir v0.2.
-
-
-##### Framtida utvecklingsmöjligheter #####
+- Skapa en ordentlig metadatabas med länkar etc.
 - Integrera Highcharts/D3/Raphael i Shiny-appen
-- Dela (via FB/Twitter/Mail/etc)
-- Länkförkortare
-- Spara variabelval mellan olika plottar och analysverktyg
+
+----- UI -----
+- Botten- eller högerpanel med variabelväljare och adress- och dataexport
+- Topp- och bottenlistor för variabler
+- HTML-länkar i all text
+- Dynamisk webbadress med länkförkortare
+- Dela-knapp (social media, bloggar etc.)
+- ”Mest lika mest olika”-listor med diverse mått på likhet/olikhet (rho, sigma, my etc.) - detta inkluderar funktionalitet för att analysera "vilka variabler korrelerar mest med denna"-analyser över kommuner
+- Tidsserier: "kvast" (delta-v vs t) och parallella serier (v vs t)
+- Krysslistor med variabler istället för dropdown i tidsserieanalys
+- Länkar istället för drop down-meny på startsidan
+- Fräschare CSS
+- Indelning i regioner för kartplotten
+- Dynamiskt anpassande "År"-slider
+- Klickbar data i olika grafer. T.ex. klicka på kommun för att få upp mer data om kommunen eller tidsserier, klicka på en variabel i tidsserier för att komma till scatterplot med alla kommuner, etc. etc.
+
