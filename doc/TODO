@@ -15,7 +15,7 @@ ATT GÖRA
 - Utred om vi kan lägga upp KLD Explorer på egen server
 - Ändra alla namnsträngar från "KoladApp" till "KLD Explorer"
 - Skriv om till Coldbir v0.2.
-
+- Lägg till landsting som kolumn 
 
 ##### Framtida utvecklingsmöjligheter #####
 - Integrera Highcharts/D3/Raphael i Shiny-appen
