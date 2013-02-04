@@ -50,149 +50,25 @@ shinyServer(function(input, output) {
   #####################################################################
   ##          FRONTPAGE/INFO PAGE                                    ##
   #####################################################################
-  output$frontpage <- reactiveText(function() {
-    source(paste("./text_pages/", input$frontpage_text, sep=""))
-    #     x <- as.character(input$frontpage_text)
-    #     print(x)
-    as.character(x)
-  })
-  
+  source("server/frontpage.R", local=T)
   
   
   #####################################################################
   ##          TIME SERIES PLOT                                       ##
   #####################################################################
-  output$timeseries_plot <- reactivePlot(function() {
-    
-    gg_DT <- getOutputData()[subset(kom_key, value == c(input$kommun))["value"]]
-    
-    p <- ggplot(data=gg_DT,
-                group=1
-    ) + 
-      aes_string(x="År",
-                 y=input$category,
-                 xmin=min(allyears), 
-                 xmax=max(allyears)
-      )
-    
-    p <- p + layer(
-      geom=input$graftyp
-    )
-    
-    # Kod för utvärdering av två variabler med samma y-limits
-    if(input$tvavar) {
-      p <- p + layer(
-        geom=input$graftyp,
-        aes(color="red", fill="red"),
-        mapping=aes_string(x="År",
-                           y=input$categ2)
-      )
-      
-      if (input$smooth) {
-        p <- p + geom_smooth(
-          method=ifelse(input$loess == TRUE, "loess", "lm"), 
-          mapping=aes_string(x="År", y=input$categ2),
-          color="red"
-        )
-      }
-    }
-    
-    if (input$smooth) {
-      p <- p + geom_smooth(
-        method=ifelse(input$loess == TRUE, "loess", "lm"), 
-        mapping=aes_string(x="År", y=input$category)
-      )   
-    }
-    
-    p <- p + ggtitle(input$kommun)
-    p <- p + labs(
-      x="År",
-      y=ifelse(!input$tvavar, "Variabel 1 (svart)", "Variabel 1 (svart), variabel 2 (röd)")
-    )
-    
-    
-    print(p)
-  })
-  
+  source("server/time_series.R", local=T)
   
   
   #####################################################################
   ##          TWOWAY PLOT                                            ##
   #####################################################################
-  output$twoway_plot <- reactivePlot(function() {  
-    
-    gg_DT <- getOutputData()
-    
-    q <- ggplot(data=gg_DT, aes_string(x=input$category, y=input$categ2, color="Kommun"))
-    q <- q + layer(geom="point", subset=.(År == input$year))
-    
-    q <- q + labs(
-      x=Metadata[Metadata$Kod == input$category, "Kortnamn"],
-      y=Metadata[Metadata$Kod == input$categ2, "Kortnamn"]
-    )
-    
-    
-    if(input$percentgraph) {
-      q <- q + xlim(0,100) + ylim(0,100)
-      q <- q + layer(geom="abline", aes(intercept=0, slope=1, linetype=2))
-    }
-    
-    if(input$smooth) {
-      q <- q + geom_smooth(method=ifelse(input$loess, "loess", "lm"), se=FALSE, subset=.(År == input$year))
-    }
-    
-    q <- q + ggtitle("Spridning per kommun")
-    
-    print(q)
-  })
-  
+  source("server/twoway.R", local=T)
   
   
   #####################################################################
   ##          MAP PLOT                                               ##
   #####################################################################
-  
-  ##### SKAPA SVERIGEKARTA #####
-  # Ref: https://github.com/hadley/ggplot2/wiki/plotting-polygon-shapefiles
-  
-  output$map_plot <- reactivePlot(function() {
-    
-    # Set gpclibPermitStatus() to TRUE
-    # (Whatever that means...)
-    gpclibPermit()
-    
-    gg_DT <- subset(getOutputData(), År == input$year)[,c("Kommun", input$category), with=F][kom_key]
-        
-    # Merge shapefile with KLD data
-    setnames(gg_DT, names(gg_DT), c("Kommun", "Värde", "KNNAMN"))    
-    sverige.df.KL <- join(sverige.df, gg_DT, by="KNNAMN", type="left")
-    
-#     browser()
-    
-    # Plot Sweden map
-    p <- ggplot(sverige.df.KL, na.rm=TRUE) + 
-      aes(long,lat,group=group,fill=Värde) + 
-      geom_polygon() +
-      #   geom_path(color="white") +
-      coord_equal() +
-      scale_fill_continuous(na.value="gray80") +
-      theme_bw() +
-      theme(axis.title = element_blank(),
-            axis.text = element_blank(),
-            axis.ticks = element_blank()
-      )
-    
-    print(p)
-    
-    #     browser()
-    
-    # Add map locations for annotations
-    # label_points = coordinates(sverige)
-    # label_points can then be used as mapping coordinates for geom_text()
-    
-  })
-  
-  
+  source("server/map.R", local=T)
   
   #####################################################################
   ##          DOWNLOAD FUNCTION                                      ##
@@ -204,6 +80,7 @@ shinyServer(function(input, output) {
     }
   )
   
+
   
   #####################################################################
   ##          SESSION INFO (for evaluation purposes only)            ##
