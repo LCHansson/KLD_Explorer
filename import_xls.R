@@ -70,10 +70,14 @@ for(varFile in xlsFiles) {
 }
 
 # Write to .csv
-write.csv(KLD_data,
-          paste(kDBRoot, "nyckeltal2.csv", sep=""),
-          row.names=F
-)
+# write.csv(KLD_data,
+#           paste(kDBRoot, "nyckeltal2.csv", sep=""),
+#           row.names=F
+# )
+
+# Write KLD_data to column database
+cdb <- coldbir:::put_variable(KLD_data, path="./db/wide2/", lookup=T)
+
 
 # EOF cleanup
 rm(list=ls())
