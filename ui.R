@@ -26,8 +26,8 @@ shinyUI(pageWithSidebar(
   source("ui/sidebar.R", local=T),
   
   mainPanel(
-    source("ui/graphwindow.R", local=T),
-    source("ui/varbar.R", local=T)
+    source("ui/graphwindow.R", local=T)
+#     source("ui/varbar.R", local=T)
     )
   )
 )

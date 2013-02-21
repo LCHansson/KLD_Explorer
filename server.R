@@ -8,10 +8,10 @@ kommunNamn <- sort(kommunNamn)
 
 # Create dimensional data frame
 commune <- wide_data$get_v("Kommun")
-year <- wide_data$get_v("År")
+year <- wide_data$get_v("Year")
 dim_DT <- data.table(Kommun=commune, År=year, key="Kommun")
 
-kom_key <- get_lookup("Kommun", "./db/wide")
+kom_key <- get_lookup("Kommun", "./db/wide2")
 
 ## Create Sweden map data
 # Set gpclibPermitStatus() to TRUE
@@ -86,12 +86,12 @@ shinyServer(function(input, output) {
   ##          SESSION INFO (for evaluation purposes only)            ##
   #####################################################################
   
-  output$sessioninfo <- reactiveText(function() {
-    print(input$graftyp)
-    print(input$category)
-    print(input$smooth)
-    print(paste("Var1: ",input$category, ", var2: ", input$categ2))
-    print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
-    print(paste("Working directory:", getwd()))
-  })
+#   output$sessioninfo <- reactiveText(function() {
+#     print(input$graftyp)
+#     print(input$category)
+#     print(input$smooth)
+#     print(paste("Var1: ",input$category, ", var2: ", input$categ2))
+#     print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
+#     print(paste("Working directory:", getwd()))
+#   })
 })
