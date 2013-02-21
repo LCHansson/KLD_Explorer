@@ -14,9 +14,9 @@
 #    data.table
 # 3. Save the data.table to a Coldbir instance
 
-# Constants
+Constants
 kIndataRoot <- "./indata/"
-kIndataFileExtension <- "xls"
+kIndataFileExtension <- ".xls"
 kDBRoot <- "./db/"
 
 # Load libraries
@@ -25,18 +25,58 @@ require(data.table)
 require(Coldbir)
 
 # Find all variables in Indata folder
-xlsFiles <- list.files(kIndataRoot, paste("*.", kIndataFileExtension, sep=""))
+xlsFiles <- list.files(kIndataRoot, paste("*", kIndataFileExtension, sep=""))
+
+rm(KLD_data)
 
 # Load data and save it in a vector
 for(varFile in xlsFiles) {
-  # Read XLS file
-  varContents <- read.xls(paste(varFile)
   
-  # Find variable name
+  cat("Reading file:",varFile, "\n")
+  
+  # Read XLS file
+  varContents <- data.table(
+    read.xls(
+      paste(
+        kIndataRoot,
+        varFile,
+        sep=""
+      ),
+      fileEncoding="ISO8859-1"
+    )
+  )[,list(Kommun.Landsting, År, Visat.Värde)]
+  
+  # Index indata
+  setkeyv(varContents, c("Kommun.Landsting", "År"))
+  
+  cat("Indata Keys:", key(varContents), "\n")
+  cat("Indata Names:", names(varContents), "\n")
+  
+  # Find variable name and merge names and set it to be the title of the value column
+  # (The names() call is due to encoding problems)
   varName <- gsub("*.xls", "", varFile)
+  setnames(varContents, names(varContents), c("Kommun", "Year", varName))
+  
+  cat("Prepset Names:", names(varContents), "\n")
+  
+  # Merge/create indata with main data.table
+  if(!exists("KLD_data")) {
+    KLD_data <- copy(varContents)
+  } else {
+    cat("Masterdata keys:", key(KLD_data), "\n")
+    cat("Masterdata names:", names(KLD_data), "\n***\n")
+    KLD_data <- merge(KLD_data, varContents, by=c("Kommun", "Year"), all=T)
+  }
 }
 
+# Write to .csv
+write.csv(KLD_data,
+          paste(kDBRoot, "nyckeltal2.csv", sep=""),
+          row.names=F
+)
 
+# EOF cleanup
+rm(list=ls())
 
 # TEST CODE
 # varName <- gsub("*.xls", "", xlsFiles[1])
