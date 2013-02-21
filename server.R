@@ -8,10 +8,10 @@ kommunNamn <- sort(kommunNamn)
 
 # Create dimensional data frame
 commune <- wide_data$get_v("Kommun")
-year <- wide_data$get_v("År")
+year <- wide_data$get_v("Year")
 dim_DT <- data.table(Kommun=commune, År=year, key="Kommun")
 
-kom_key <- get_lookup("Kommun", "./db/wide")
+kom_key <- get_lookup("Kommun", "./db/wide2")
 
 ## Create Sweden map data
 # Set gpclibPermitStatus() to TRUE
