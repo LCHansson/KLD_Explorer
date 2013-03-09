@@ -86,12 +86,12 @@ shinyServer(function(input, output) {
   ##          SESSION INFO (for evaluation purposes only)            ##
   #####################################################################
   
-#   output$sessioninfo <- reactiveText(function() {
-#     print(input$graftyp)
-#     print(input$category)
-#     print(input$smooth)
-#     print(paste("Var1: ",input$category, ", var2: ", input$categ2))
-#     print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
-#     print(paste("Working directory:", getwd()))
-#   })
+  output$sessioninfo <- reactiveText(function() {
+    print(input$graftyp)
+    print(input$category)
+    print(input$smooth)
+    print(paste("Var1: ",input$category, ", var2: ", input$categ2))
+    print(KLData[KLData$Variabelkod == input$category,][1][[1]][[1]])
+    print(paste("Working directory:", getwd()))
+  })
 })
