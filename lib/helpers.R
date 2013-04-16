@@ -40,9 +40,6 @@ appendMetadata <- function(indata, metadata, byname="Variabelkod", metaname="Kod
 
 
 
-
-
-
 listKLIndata <- function(path = paste(getwd(), "/indata/", sep="")) {
   datafiles <- list.files(path=path, pattern="*.xls")
   

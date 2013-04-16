@@ -13,7 +13,6 @@ Appen ska bestå av ett simplistiskt interface som möjliggör en begränsad upp
 
 Utöver själva appen ingår utvecklingen av verktyg (skript) för att läsa in exporterad Kolada-data, samla denna i en databas/fil (coldbir?) och läsa ur denna. Uppläsning av data sker helst on-the-fly.
 
-
 **Förslag på funktioner**
 - Tidsserieplot av en eller flera variabler för en eller flera kommuner
 	-- Slicing
@@ -36,9 +35,13 @@ Utöver själva appen ingår utvecklingen av verktyg (skript) för att läsa in 
 
 Interface
 ---------
+**Exempel på avdelningar/avgränsade funktioner:**
+- Analysera en variabel
+-- Grafisk illustration av en variabel
+-- Spridningsmått
+-- Annan deskriptiv statistik
+- Analysera flera variabler
+-- Grafisk illustration av flera variabler
+-- Sambandsmått mellan flera variabler
+-- 
 
-
-
-Releaser
---------
-Releaseplaneringen för KoladApp finns beskriven (v.0.1) i filen TODO.
